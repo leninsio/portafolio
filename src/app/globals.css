@@ -184,6 +184,25 @@ a {
   color: var(--text);
 }
 
+/* Narrow screens: the hero already shows the name, so give all links room. */
+@media (max-width: 599px) {
+  .nav__inner {
+    justify-content: center;
+  }
+
+  .nav__brand {
+    display: none;
+  }
+
+  .nav__list {
+    gap: 0;
+  }
+
+  .nav__link {
+    padding: 6px 8px;
+  }
+}
+
 /* Page shell ----------------------------------------------------------- */
 
 .page {
