@@ -27,7 +27,26 @@ describe("SkillsSection", () => {
       const list = screen.getByRole("list", { name: group.title });
       const items = within(list).getAllByRole("listitem");
 
-      expect(items.map((item) => item.textContent)).toEqual([...group.items]);
+      expect(items.map((item) => item.textContent)).toEqual(
+        group.items.map((item) => item.name),
+      );
+    }
+  });
+
+  it("lista las 11 tecnologías en total", () => {
+    render(<SkillsSection groups={skillGroups} />);
+
+    expect(screen.getAllByRole("listitem")).toHaveLength(11);
+  });
+
+  it("renderiza un icono decorativo junto a cada tecnología", () => {
+    render(<SkillsSection groups={skillGroups} />);
+
+    for (const item of screen.getAllByRole("listitem")) {
+      const svg = item.querySelector("svg");
+
+      expect(svg).not.toBeNull();
+      expect(svg).toHaveAttribute("aria-hidden", "true");
     }
   });
 

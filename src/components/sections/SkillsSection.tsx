@@ -1,3 +1,4 @@
+import { TechIcon } from "@/components/TechIcon";
 import type { SkillGroup } from "@/data/skills";
 
 type SkillsSectionProps = {
@@ -93,7 +94,10 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
               <p className="skills__count">{group.items.length} tecnologías</p>
               <ul className="skills__list" aria-labelledby={titleId}>
                 {group.items.map((item) => (
-                  <li key={item}>{item}</li>
+                  <li key={item.name}>
+                    <TechIcon id={item.icon} />
+                    <span>{item.name}</span>
+                  </li>
                 ))}
               </ul>
             </div>

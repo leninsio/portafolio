@@ -641,6 +641,9 @@ html[data-theme="dark"] .hero__backdrop {
 }
 
 .skills__list li {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
   padding: 6px 14px;
   border-radius: var(--radius-pill);
   background: var(--bg);
