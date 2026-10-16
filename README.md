@@ -1,24 +1,60 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Portafolio — Lenin Alvarado
 
-## Getting Started
+Portafolio de programador web full-stack hecho con **Next.js**, como ejercicio práctico del curso *Programación web full-stack con IA*. Reúne los proyectos del curso, cada uno enlazado a su versión publicada en **GitHub Pages**.
 
-First, run the development server:
+## Secciones
+
+1. **Header**: nombre y profesión (Desarrollador Full Stack).
+2. **Sobre mí**: presentación breve.
+3. **Conocimientos técnicos**: frontend, backend y herramientas.
+4. **Proyectos**: nombre, descripción, captura y enlace a GitHub Pages de cada proyecto.
+5. **Contacto**: correo, LinkedIn y GitHub.
+
+## Proyectos del curso
+
+| Proyecto | GitHub Pages |
+| --- | --- |
+| CV en HTML semántico | https://leninsio.github.io/Proyecto-HTML-SEMANTICO-LENIN-ALVARADO/ |
+| Copia de Starlink | https://leninsio.github.io/copia-starlink-lexpin/proyectos/starlink/ |
+| Copia de YouTube | https://leninsio.github.io/COPIA-YOUTUBE/ |
+| Rediseño de Cinex | https://leninsio.github.io/cinex-rediseno-proyecto-lexpin/ |
+| Formulario de registro en JavaScript | https://leninsio.github.io/ejercicios-js-lexpin/formulario%20de%20registro%20tarea/formulario.html |
+| Rick & Morty | https://leninsio.github.io/proyecto-rick-morty/ |
+
+## Cómo ejecutarlo
+
+El proyecto se gestiona **solo con pnpm** (no npm ni npx). pnpm bloquea por defecto los scripts de instalación de las dependencias.
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
+pnpm dev          # servidor de desarrollo en http://localhost:3000
+pnpm test         # pruebas con Vitest y Testing Library
+pnpm run lint     # ESLint
+pnpm run build    # build de producción
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Uso de inteligencia artificial
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+La IA se usó como apoyo durante todo el ejercicio:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Planificación y revisión**: definir requisitos a partir del enunciado, dividir el trabajo en tareas, revisar cada entrega (pruebas, build, lint y capturas en escritorio y celular) y corregir detalles.
+- **Generación de código**: implementación de cada tarea a partir de especificaciones escritas, siguiendo TDD.
+- **Diseño y textos**: búsqueda de referencias de portafolios, propuesta visual inspirada en Apple, redacción de la intro y de las descripciones de los proyectos.
+- **Publicación de proyectos**: activación de GitHub Pages en los repositorios del curso y capturas de cada sitio.
+
+Todo el código generado se revisó y se verificó con las pruebas antes de aceptarlo.
+
+## TDD
+
+Cada comportamiento se escribió primero como prueba que falla (rojo) y después se implementó lo mínimo para que pase (verde). Las pruebas cubren la validación de enlaces de GitHub Pages, cada sección, el carrusel de proyectos, el selector de tema, el rate-limit y el contacto.
+
+## Principios SOLID
+
+- **Responsabilidad única (S)**: los datos viven en `src/data`, cada sección es un componente que solo los presenta, y `src/app/page.tsx` solo compone las secciones en orden. La lógica (carrusel, tema, rate-limit, validación de URLs) está en funciones puras en `src/lib`.
+- **Abierto/cerrado (O)**: agregar un proyecto o una tecnología es agregar un dato en `src/data`, sin tocar los componentes.
+- **Sustitución de Liskov (L)**: cualquier implementación de `RateLimitStore` (memoria, Redis) funciona con el mismo limitador.
+- **Segregación de interfaces (I)**: los componentes reciben solo las props que usan.
+- **Inversión de dependencias (D)**: `createRateLimiter` depende de la interfaz `RateLimitStore` y de un reloj inyectado, no de una implementación concreta.
 
 ## Rate-limit por IP
 
@@ -32,28 +68,17 @@ El sitio limita las peticiones por dirección IP para evitar abusos y ráfagas d
   - `RateLimit-Reset`: segundos que faltan para que la ventana se reinicie.
   - `Retry-After`: solo en las respuestas `429`; segundos que faltan para poder reintentar.
 - **Identificación de la IP:** se toma el primer valor de `x-forwarded-for` (recortado); si no existe, `x-real-ip`; si tampoco, se usa `"unknown"`.
-- **Qué no se limita:** el `matcher` del proxy excluye `_next/static`, `_next/image`, `favicon.ico` y los archivos estáticos de `public/` (por ejemplo `/projects/*`), para no bloquear CSS, JS ni imágenes.
+- **Qué no se limita:** el `matcher` del proxy (`src/proxy.ts`) excluye `_next/static`, `_next/image`, `favicon.ico` y los archivos estáticos de `public/` (por ejemplo `/projects/*`), para no bloquear CSS, JS ni imágenes.
 
 ### Limitación conocida
 
 La store es **en memoria** (`Map`), así que el conteo vive en el proceso de cada instancia:
 
 - En desarrollo local, o en un despliegue de una sola instancia, el conteo es global.
-- En Vercel, cada instancia (y cada lambda) tiene su propia store; con varias instancias el conteo **no es global** y el límite real puede ser más permisivo que 60 por minuto.
+- En Vercel, cada instancia tiene su propia store; con varias instancias el conteo **no es global** y el límite real puede ser más permisivo que 60 por minuto.
 
-Para un conteo compartido basta con implementar la interfaz `RateLimitStore` (`src/lib/rate-limit/types.ts`) sobre Redis u otro almacén y pasarla a `createRateLimiter`. El limiter depende de esa interfaz, no de la implementación, así que **no hace falta tocarlo**.
+Para un conteo compartido basta con implementar la interfaz `RateLimitStore` (`src/lib/rate-limit/types.ts`) sobre Redis u otro almacén y pasarla a `createRateLimiter`. El limitador depende de esa interfaz, no de la implementación, así que **no hace falta tocarlo**.
 
-## Learn More
+## Tecnologías
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Next.js, React, TypeScript, CSS propio, Vitest, Testing Library, Simple Icons y pnpm.
