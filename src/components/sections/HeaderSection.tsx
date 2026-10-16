@@ -3,6 +3,7 @@
 import { Fragment, type CSSProperties } from "react";
 import { RotatingWords } from "@/components/RotatingWords";
 import { useInView } from "@/hooks/useInView";
+import styles from "./HeaderSection.module.css";
 
 type HeaderSectionProps = {
   name: string;
@@ -20,28 +21,28 @@ export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
 
   return (
     <header
-      className="hero"
+      className={styles.hero}
       id="inicio"
       aria-labelledby="hero-title"
       ref={ref}
     >
-      <span className="hero__bg" aria-hidden="true" data-inview={inview}>
-        <span className="hero__backdrop" />
-        <span className="hero__fade" />
+      <span className={styles.bg} aria-hidden="true" data-inview={inview}>
+        <span className={styles.backdrop} data-slot="hero-backdrop" />
+        <span className={styles.fade} />
       </span>
-      <div className="hero__content">
+      <div className={styles.content}>
         <p
-          className="hero__eyebrow hero__enter"
+          className={`${styles.eyebrow} ${styles.enter}`}
           style={{ "--enter-delay": "880ms" } as CSSProperties}
         >
           Portafolio
         </p>
-        <h1 className="hero__name" id="hero-title">
+        <h1 className={styles.name} id="hero-title">
           {words.map((word, index) => (
             <Fragment key={`${word}-${index}`}>
               {index > 0 ? " " : null}
               <span
-                className="hero__word"
+                className={styles.word}
                 style={{ "--word-index": `${index}` } as CSSProperties}
               >
                 {word}
@@ -50,13 +51,13 @@ export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
           ))}
         </h1>
         <p
-          className="hero__role hero__enter"
+          className={`${styles.role} ${styles.enter}`}
           style={{ "--enter-delay": "960ms" } as CSSProperties}
         >
           {role}
         </p>
         <p
-          className="hero__tagline hero__enter"
+          className={`${styles.tagline} ${styles.enter}`}
           style={{ "--enter-delay": "1040ms" } as CSSProperties}
         >
           <RotatingWords
@@ -66,19 +67,19 @@ export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
           />
         </p>
         <div
-          className="hero__actions hero__enter"
+          className={`${styles.actions} ${styles.enter}`}
           style={{ "--enter-delay": "1120ms" } as CSSProperties}
         >
           <a className="button" href="#proyectos">
             Ver proyectos
           </a>
-          <a className="hero__cta" href="#contacto">
+          <a className={styles.cta} href="#contacto">
             Contáctame<span aria-hidden="true"> ›</span>
           </a>
         </div>
       </div>
       <a
-        className="hero__scroll"
+        className={styles.scroll}
         href="#sobre-mi"
         aria-label="Ir a Sobre mí"
         data-inview={inview}

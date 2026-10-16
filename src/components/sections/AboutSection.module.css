@@ -1,0 +1,97 @@
+.introText {
+  max-width: 60ch;
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.5;
+}
+
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 6vw, 72px);
+    align-items: start;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+}
+
+.principles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.principle {
+  display: grid;
+  grid-template-areas:
+    "icon title"
+    "icon text";
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 4px 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius-media);
+  background: var(--surface);
+  transition:
+    transform var(--duration) ease,
+    box-shadow var(--duration) ease;
+}
+
+.principle:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.fast {
+  --tint-bg: var(--tint-blue-bg);
+  --tint-fg: var(--tint-blue-fg);
+}
+
+.accessible {
+  --tint-bg: var(--tint-violet-bg);
+  --tint-fg: var(--tint-violet-fg);
+}
+
+.easy {
+  --tint-bg: var(--tint-teal-bg);
+  --tint-fg: var(--tint-teal-fg);
+}
+
+.principleIcon {
+  grid-area: icon;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--tint-bg);
+  color: var(--tint-fg);
+}
+
+.principleTitle {
+  grid-area: title;
+  align-self: center;
+  color: var(--text);
+}
+
+.principleText {
+  grid-area: text;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .principle:hover {
+    transform: none;
+  }
+}

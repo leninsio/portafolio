@@ -11,6 +11,7 @@ import {
 import { ProjectCard } from "@/components/ProjectCard";
 import { clampIndex, nextIndex, prevIndex } from "@/lib/carousel";
 import type { Project } from "@/data/projects";
+import styles from "./ProjectCarousel.module.css";
 
 type ProjectCarouselProps = {
   projects: readonly Project[];
@@ -85,17 +86,17 @@ export function ProjectCarousel({
 
   return (
     <div
-      className="carousel"
+      className={styles.carousel}
       role="region"
       aria-roledescription="carrusel"
       aria-label="Proyectos"
       tabIndex={0}
       onKeyDown={handleKeyDown}
     >
-      <ul className="carousel__track" ref={trackRef} onScroll={handleScroll}>
+      <ul className={styles.track} ref={trackRef} onScroll={handleScroll}>
         {projects.map((project, index) => (
           <li
-            className={`carousel__slide${index === active ? " is-active" : ""}`}
+            className={`${styles.slide}${index === active ? " is-active" : ""}`}
             key={project.slug}
             role="group"
             aria-roledescription="slide"
@@ -113,15 +114,15 @@ export function ProjectCarousel({
       </ul>
 
       <div
-        className="carousel__controls"
+        className={styles.controls}
         data-reveal=""
         style={{ "--stagger-index": startIndex } as CSSProperties}
       >
-        <div className="carousel__dots">
+        <div className={styles.dots}>
           {projects.map((project, index) => (
             <button
               type="button"
-              className="carousel__dot"
+              className={styles.dot}
               key={project.slug}
               aria-label={`Ir al proyecto ${index + 1}`}
               aria-current={index === active ? "true" : undefined}
@@ -130,10 +131,10 @@ export function ProjectCarousel({
           ))}
         </div>
 
-        <div className="carousel__buttons">
+        <div className={styles.buttons}>
           <button
             type="button"
-            className="carousel__nav"
+            className={styles.nav}
             aria-label="Anterior"
             onClick={() => goTo(prevIndex(active, total))}
             disabled={active === 0}
@@ -143,7 +144,7 @@ export function ProjectCarousel({
 
           <button
             type="button"
-            className="carousel__nav"
+            className={styles.nav}
             aria-label="Siguiente"
             onClick={() => goTo(nextIndex(active, total))}
             disabled={active === total - 1}

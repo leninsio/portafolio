@@ -1,6 +1,7 @@
 import type { ReactElement } from "react";
 import { AboutStats } from "@/components/AboutStats";
 import { Reveal } from "@/components/Reveal";
+import styles from "./AboutSection.module.css";
 import {
   principles as defaultPrinciples,
   type Principle,
@@ -78,6 +79,12 @@ const ICONS: Record<PrincipleIconId, () => ReactElement> = {
   cursor: CursorIcon,
 };
 
+const PRINCIPLE_TINTS: Record<string, string> = {
+  fast: styles.fast,
+  accessible: styles.accessible,
+  easy: styles.easy,
+};
+
 export function AboutSection({
   text,
   principles = defaultPrinciples,
@@ -85,26 +92,28 @@ export function AboutSection({
 }: AboutSectionProps) {
   return (
     <section className="section" id="sobre-mi" aria-labelledby="intro-title">
-      <div className="about">
-        <Reveal className="about__main">
+      <div className={styles.about}>
+        <Reveal className={styles.main}>
           <h2 id="intro-title">Sobre mí</h2>
-          <p className="intro__text">{text}</p>
+          <p className={styles.introText}>{text}</p>
           <AboutStats stats={stats} startIndex={2} />
         </Reveal>
-        <Reveal className="about__principles" startIndex={5}>
+        <Reveal className={styles.principles} startIndex={5}>
           {principles.map((principle) => {
             const Icon = ICONS[principle.icon];
 
             return (
               <article
-                className={`principle principle--${principle.id}`}
+                className={`${styles.principle} ${
+                  PRINCIPLE_TINTS[principle.id] ?? ""
+                }`}
                 key={principle.id}
               >
-                <span className="principle__icon">
+                <span className={styles.principleIcon}>
                   <Icon />
                 </span>
-                <h3 className="principle__title">{principle.title}</h3>
-                <p className="principle__text">{principle.text}</p>
+                <h3 className={styles.principleTitle}>{principle.title}</h3>
+                <p className={styles.principleText}>{principle.text}</p>
               </article>
             );
           })}

@@ -1,0 +1,37 @@
+.toggle {
+  display: grid;
+  flex: none;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  place-items: center;
+  border: 1px solid var(--separator);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    color var(--duration) ease,
+    background-color var(--duration) ease,
+    border-color var(--duration) ease;
+}
+
+.toggle:hover {
+  background: var(--surface);
+}
+
+.icon {
+  display: block;
+}
+
+@media (max-width: 599px) {
+  .toggle {
+    width: 30px;
+    height: 30px;
+  }
+
+  .icon {
+    width: 16px;
+    height: 16px;
+  }
+}

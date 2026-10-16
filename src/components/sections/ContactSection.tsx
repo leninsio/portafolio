@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { siGithub } from "simple-icons";
 import { Reveal } from "@/components/Reveal";
 import type { ContactIconId, ContactLink } from "@/data/profile";
+import styles from "./ContactSection.module.css";
 
 type ContactSectionProps = {
   links: readonly ContactLink[];
@@ -109,17 +110,17 @@ export function ContactSection({ links }: ContactSectionProps) {
 
   return (
     <section className="section" id="contacto" aria-labelledby="contact-title">
-      <Reveal className="contact-card">
-        <p className="contact-card__eyebrow">Contacto</p>
-        <h2 className="contact-card__title" id="contact-title">
+      <Reveal className={styles.card}>
+        <p className={styles.eyebrow}>Contacto</p>
+        <h2 className={styles.title} id="contact-title">
           Hablemos.
         </h2>
-        <p className="contact-card__lead">
+        <p className={styles.lead}>
           ¿Tienes un proyecto en mente o una oportunidad? Escríbeme y te
           respondo pronto.
         </p>
         {email && (
-          <div className="contact-card__actions">
+          <div className={styles.actions}>
             <a className="button" href={`mailto:${email}`}>
               Escríbeme
             </a>
@@ -134,7 +135,7 @@ export function ContactSection({ links }: ContactSectionProps) {
           </div>
         )}
         {available.length > 0 && (
-          <ul className="contact" aria-label="Canales de contacto">
+          <ul className={styles.contact} aria-label="Canales de contacto">
             {available.map((link, index) => {
               const isExternal = link.href.startsWith("http");
 
@@ -149,21 +150,21 @@ export function ContactSection({ links }: ContactSectionProps) {
                   }
                 >
                   <a
-                    className="contact__row"
+                    className={styles.row}
                     href={link.href}
                     target={isExternal ? "_blank" : undefined}
                     rel={isExternal ? "noopener noreferrer" : undefined}
                   >
-                    <span className="contact__icon">
+                    <span className={styles.icon}>
                       <ChannelIcon id={link.icon} />
                     </span>
-                    <span className="contact__body">
-                      <span className="contact__label">{link.label}</span>
-                      <span className="contact__value">
+                    <span className={styles.body}>
+                      <span className={styles.label}>{link.label}</span>
+                      <span className={styles.value}>
                         {link.value ?? link.href}
                       </span>
                     </span>
-                    <span className="contact__arrow" aria-hidden="true">
+                    <span className={styles.arrow} aria-hidden="true">
                       ↗
                     </span>
                   </a>

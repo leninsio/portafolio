@@ -11,8 +11,9 @@ function renderRotating() {
 }
 
 function displayed(container: HTMLElement) {
-  return container.querySelector('.rotating__word[data-active="true"]')
-    ?.textContent;
+  return container.querySelector(
+    '[data-slot="rotating-word"][data-active="true"]',
+  )?.textContent;
 }
 
 function advance(ms: number) {
@@ -72,14 +73,12 @@ describe("RotatingWords", () => {
   it("oculta a lectores de pantalla la parte animada", () => {
     const { container } = renderRotating();
 
-    expect(container.querySelector(".rotating__label")).toHaveAttribute(
-      "aria-hidden",
-      "true",
-    );
-    expect(container.querySelector(".rotating__viewport")).toHaveAttribute(
-      "aria-hidden",
-      "true",
-    );
+    expect(
+      container.querySelector('[data-slot="rotating-label"]'),
+    ).toHaveAttribute("aria-hidden", "true");
+    expect(
+      container.querySelector('[data-slot="rotating-viewport"]'),
+    ).toHaveAttribute("aria-hidden", "true");
   });
 
   it("pausa la rotación cuando la pestaña no está visible", () => {

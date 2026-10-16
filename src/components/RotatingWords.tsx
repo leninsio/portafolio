@@ -3,6 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useInView } from "@/hooks/useInView";
 import { nextWordIndex } from "@/lib/rotating-words";
+import styles from "./RotatingWords.module.css";
 
 type RotatingWordsProps = {
   prefix: string;
@@ -74,14 +75,19 @@ export function RotatingWords({ prefix, words, label }: RotatingWordsProps) {
   }, [total, inView]);
 
   return (
-    <span className="rotating" ref={ref}>
-      <span className="rotating__label" aria-hidden="true">
+    <span className={styles.rotating} ref={ref}>
+      <span className={styles.label} aria-hidden="true" data-slot="rotating-label">
         {prefix}
       </span>
-      <span className="rotating__viewport" aria-hidden="true">
+      <span
+        className={styles.viewport}
+        aria-hidden="true"
+        data-slot="rotating-viewport"
+      >
         {words.map((word, index) => (
           <span
-            className="rotating__word"
+            className={styles.word}
+            data-slot="rotating-word"
             data-active={index === active}
             key={word}
             style={

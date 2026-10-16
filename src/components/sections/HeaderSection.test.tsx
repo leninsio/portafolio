@@ -81,7 +81,7 @@ describe("HeaderSection", () => {
   it("oculta la imagen de fondo a los lectores de pantalla", () => {
     const { container } = renderHeader();
 
-    const backdrop = container.querySelector(".hero__backdrop");
+    const backdrop = container.querySelector('[data-slot="hero-backdrop"]');
 
     expect(backdrop).not.toBeNull();
     expect(backdrop?.closest('[aria-hidden="true"]')).not.toBeNull();

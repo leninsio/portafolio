@@ -55,7 +55,7 @@ describe("SkillsSection", () => {
 
     const cards = screen
       .getAllByRole("heading", { level: 3 })
-      .map((heading) => heading.closest(".skills__group"));
+      .map((heading) => heading.closest('[data-slot="skills-group"]'));
 
     expect(cards).toHaveLength(3);
     for (const card of cards) {
@@ -76,20 +76,24 @@ describe("SkillsSection", () => {
 
     const cards = screen
       .getAllByRole("heading", { level: 3 })
-      .map((heading) => heading.closest(".skills__group") as HTMLElement);
+      .map(
+        (heading) => heading.closest('[data-slot="skills-group"]') as HTMLElement,
+      );
 
     const [frontend, ...others] = cards;
-    const window = frontend.querySelector(".code-window");
+    const window = frontend.querySelector('[data-slot="code-window"]');
 
     expect(window).not.toBeNull();
     expect(window).toHaveAttribute("aria-hidden", "true");
     expect(within(window as HTMLElement).getByText("Portfolio.tsx")).toBeInTheDocument();
 
     for (const card of others) {
-      expect(card.querySelector(".code-window")).toBeNull();
+      expect(card.querySelector('[data-slot="code-window"]')).toBeNull();
     }
 
-    expect(container.querySelectorAll(".code-window")).toHaveLength(1);
+    expect(container.querySelectorAll('[data-slot="code-window"]')).toHaveLength(
+      1,
+    );
   });
 
   it("muestra la frase introductoria de la sección", () => {

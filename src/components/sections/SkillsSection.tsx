@@ -3,12 +3,19 @@ import { CodeWindow } from "@/components/CodeWindow";
 import { Reveal } from "@/components/Reveal";
 import { TechIcon } from "@/components/TechIcon";
 import type { SkillGroup } from "@/data/skills";
+import styles from "./SkillsSection.module.css";
 
 type SkillsSectionProps = {
   groups: readonly SkillGroup[];
 };
 
 const GROUP_STYLES = ["frontend", "backend", "tools"] as const;
+
+const GROUP_TINTS: Record<string, string> = {
+  frontend: styles.frontend,
+  backend: styles.backend,
+  tools: styles.tools,
+};
 
 function CodeIcon() {
   return (
@@ -77,7 +84,7 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
           Las herramientas con las que construyo, de la interfaz al servidor.
         </p>
       </Reveal>
-      <Reveal className="skills" startIndex={2}>
+      <Reveal className={styles.skills} startIndex={2}>
         {groups.map((group, index) => {
           const titleId = `skills-group-${index}`;
           const style = GROUP_STYLES[index] ?? "frontend";
@@ -86,20 +93,21 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
 
           return (
             <div
-              className={`skills__group skills__group--${style}${
-                index === 0 ? " skills__group--lead" : ""
+              className={`${styles.group} ${GROUP_TINTS[style] ?? ""}${
+                index === 0 ? ` ${styles.lead}` : ""
               }`}
               key={group.title}
+              data-slot="skills-group"
             >
-              <span className="skills__icon">
+              <span className={styles.icon}>
                 <Icon />
               </span>
-              <h3 className="skills__title" id={titleId}>
+              <h3 className={styles.title} id={titleId}>
                 {group.title}
               </h3>
-              <p className="skills__count">{group.items.length} tecnologías</p>
+              <p className={styles.count}>{group.items.length} tecnologías</p>
               {index === 0 ? <CodeWindow /> : null}
-              <ul className="skills__list" aria-labelledby={titleId}>
+              <ul className={styles.list} aria-labelledby={titleId}>
                 {group.items.map((item, itemIndex) => (
                   <li
                     key={item.name}

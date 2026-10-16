@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { profile } from "@/data/profile";
+import styles from "./SiteNav.module.css";
 
 const sectionLinks = [
   { label: "Sobre mí", href: "#sobre-mi" },
@@ -78,20 +79,20 @@ export function SiteNav() {
   }, []);
 
   return (
-    <nav className="nav" aria-label="Principal">
-      <div className="nav__inner">
+    <nav className={styles.nav} aria-label="Principal">
+      <div className={styles.inner}>
         <a
-          className="nav__brand"
+          className={styles.brand}
           href="#inicio"
           aria-current={activeHref === "#inicio" ? "true" : undefined}
         >
           {profile.name}
         </a>
-        <ul className="nav__list">
+        <ul className={styles.list}>
           {sectionLinks.map((link) => (
             <li key={link.href}>
               <a
-                className="nav__link"
+                className={styles.link}
                 href={link.href}
                 aria-current={activeHref === link.href ? "true" : undefined}
               >

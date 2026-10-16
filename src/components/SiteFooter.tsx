@@ -1,11 +1,12 @@
 import { Reveal } from "@/components/Reveal";
 import { profile } from "@/data/profile";
+import styles from "./SiteFooter.module.css";
 
 export function SiteFooter() {
   return (
-    <footer className="footer">
+    <footer className={styles.footer}>
       <Reveal>
-        <p className="footer__text">© 2026 {profile.name} · Hecho con Next.js</p>
+        <p className={styles.text}>© 2026 {profile.name} · Hecho con Next.js</p>
       </Reveal>
     </footer>
   );

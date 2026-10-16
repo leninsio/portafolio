@@ -1,6 +1,7 @@
 "use client";
 
 import { useInView } from "@/hooks/useInView";
+import styles from "./CodeWindow.module.css";
 
 type CodeTone = "keyword" | "component" | "string" | "prop" | "punct";
 
@@ -75,27 +76,29 @@ export function CodeWindow() {
   const { ref, inView } = useInView<HTMLDivElement>();
 
   return (
-    <div className="code-window-slot">
+    <div className={styles.slot} data-slot="code-window-slot">
       <div
-        className="code-window"
+        className={styles.window}
         aria-hidden="true"
         ref={ref}
+        data-slot="code-window"
         data-inview={inView ? "true" : "false"}
       >
-        <div className="code-window__bar">
-          <span className="code-window__dot code-window__dot--red" />
-          <span className="code-window__dot code-window__dot--yellow" />
-          <span className="code-window__dot code-window__dot--green" />
-          <span className="code-window__file">Portfolio.tsx</span>
+        <div className={styles.bar}>
+          <span className={`${styles.dot} ${styles.dotRed}`} />
+          <span className={`${styles.dot} ${styles.dotYellow}`} />
+          <span className={`${styles.dot} ${styles.dotGreen}`} />
+          <span className={styles.file}>Portfolio.tsx</span>
         </div>
-        <pre className="code-window__body">
+        <pre className={styles.body}>
           <code>
             {CODE_LINES.map((line, lineIndex) => (
-              <span className="code-window__line" key={lineIndex}>
+              <span className={styles.line} key={lineIndex}>
                 {line.map((token, tokenIndex) =>
                   token.tone ? (
                     <span
-                      className={`code-window__tok code-window__tok--${token.tone}`}
+                      className={styles.tok}
+                      data-tone={token.tone}
                       key={tokenIndex}
                     >
                       {token.text}
@@ -105,7 +108,7 @@ export function CodeWindow() {
                   ),
                 )}
                 {lineIndex === CODE_LINES.length - 1 ? (
-                  <span className="code-window__cursor" />
+                  <span className={styles.cursor} />
                 ) : null}
               </span>
             ))}

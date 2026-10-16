@@ -1,0 +1,127 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 28px;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(130% 130% at 0% 0%, var(--tint-blue-bg), transparent 62%),
+    linear-gradient(135deg, var(--tint-blue-bg), var(--tint-violet-bg));
+}
+
+.eyebrow {
+  color: var(--tint-violet-fg);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.title {
+  color: var(--text);
+}
+
+.lead {
+  max-width: 46ch;
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  height: 100%;
+  padding: 16px 18px;
+  border-radius: var(--radius-media);
+  background: var(--bg);
+  color: var(--text);
+  text-decoration: none;
+  transition:
+    transform var(--duration) ease,
+    box-shadow var(--duration) ease;
+}
+
+.row:hover,
+.row:focus-visible {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.icon {
+  display: grid;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.label {
+  font-size: 1rem;
+}
+
+.value {
+  overflow-wrap: anywhere;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.arrow {
+  margin-left: auto;
+  color: var(--accent);
+  transition: transform var(--duration) ease;
+}
+
+.row:hover .arrow,
+.row:focus-visible .arrow {
+  transform: translate(2px, -2px);
+}
+
+@media (min-width: 720px) {
+  .contact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions :global(.button) {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .row:hover {
+    transform: none;
+  }
+}

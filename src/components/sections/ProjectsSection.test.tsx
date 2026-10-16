@@ -85,7 +85,7 @@ describe("ProjectsSection", () => {
   it("marca el marco de ventana como decorativo", () => {
     const { container } = render(<ProjectsSection projects={projects} />);
 
-    const frames = container.querySelectorAll(".project__chrome");
+    const frames = container.querySelectorAll('[data-slot="project-chrome"]');
 
     expect(frames).toHaveLength(projects.length);
     for (const frame of frames) {

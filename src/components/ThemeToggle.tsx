@@ -8,6 +8,7 @@ import {
   toggleTheme,
   type Theme,
 } from "@/lib/theme";
+import styles from "./ThemeToggle.module.css";
 
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
@@ -65,7 +66,7 @@ function applyTheme(theme: Theme) {
 
 function ThemeIcon({ theme }: { theme: Theme }) {
   const common = {
-    className: "theme-toggle__icon",
+    className: styles.icon,
     viewBox: "0 0 24 24",
     width: 18,
     height: 18,
@@ -131,7 +132,7 @@ export function ThemeToggle() {
 
   return (
     <button
-      className="theme-toggle"
+      className={styles.toggle}
       type="button"
       onClick={toggle}
       aria-label={ACTION_LABELS[theme]}

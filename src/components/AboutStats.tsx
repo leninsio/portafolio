@@ -3,6 +3,7 @@
 import { useEffect, useState, type CSSProperties } from "react";
 import { useInView } from "@/hooks/useInView";
 import { counterValue, type AboutStat } from "@/lib/stats";
+import styles from "./AboutStats.module.css";
 
 type AboutStatsProps = {
   stats: readonly AboutStat[];
@@ -46,21 +47,21 @@ export function AboutStats({ stats, startIndex = 0 }: AboutStatsProps) {
   }, [inView]);
 
   return (
-    <div className="about__stats" ref={ref}>
+    <div className={styles.stats} ref={ref}>
       {stats.map((stat, index) => (
         <div
-          className="about__stat"
+          className={styles.stat}
           key={stat.id}
           data-reveal=""
           style={{ "--stagger-index": startIndex + index } as CSSProperties}
         >
-          <span className="about__stat-value" aria-hidden="true">
+          <span className={styles.value} aria-hidden="true">
             {counterValue(stat.value, elapsed, DURATION_MS)}
           </span>
-          <span className="about__stat-label" aria-hidden="true">
+          <span className={styles.label} aria-hidden="true">
             {stat.label}
           </span>
-          <span className="about__stat-detail" aria-hidden="true">
+          <span className={styles.detail} aria-hidden="true">
             {stat.detail}
           </span>
           <span className="visually-hidden">

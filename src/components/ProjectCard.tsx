@@ -1,6 +1,7 @@
 import Image from "next/image";
 import type { Project } from "@/data/projects";
 import { isValidPagesUrl } from "@/lib/projects";
+import styles from "./ProjectCard.module.css";
 
 type ProjectCardProps = {
   project: Project;
@@ -11,16 +12,20 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
   const number = String(index + 1).padStart(2, "0");
 
   return (
-    <article className="project">
-      <div className="project__media">
-        <span className="project__chrome" aria-hidden="true">
-          <span className="project__dot project__dot--red" />
-          <span className="project__dot project__dot--yellow" />
-          <span className="project__dot project__dot--green" />
+    <article className={styles.project}>
+      <div className={styles.media}>
+        <span
+          className={styles.chrome}
+          aria-hidden="true"
+          data-slot="project-chrome"
+        >
+          <span className={`${styles.dot} ${styles.dotRed}`} />
+          <span className={`${styles.dot} ${styles.dotYellow}`} />
+          <span className={`${styles.dot} ${styles.dotGreen}`} />
         </span>
-        <div className="project__shot">
+        <div className={styles.shot}>
           <Image
-            className="project__image"
+            className={styles.image}
             src={project.image}
             alt={`Captura de ${project.name}`}
             width={1280}
@@ -29,19 +34,19 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
           />
         </div>
       </div>
-      <div className="project__body">
-        <p className="project__index">{number}</p>
-        <h3 className="project__name">{project.name}</h3>
-        <p className="project__description">{project.description}</p>
-        <ul className="project__tags">
+      <div className={styles.body}>
+        <p className={styles.index}>{number}</p>
+        <h3 className={styles.name}>{project.name}</h3>
+        <p className={styles.description}>{project.description}</p>
+        <ul className={styles.tags}>
           {project.tags.map((tag) => (
             <li key={tag}>{tag}</li>
           ))}
         </ul>
-        <div className="project__links">
+        <div className={styles.links}>
           {isValidPagesUrl(project.pagesUrl) && (
             <a
-              className="project__link project__link--primary"
+              className={`${styles.link} ${styles.linkPrimary}`}
               href={project.pagesUrl}
               target="_blank"
               rel="noopener noreferrer"
@@ -50,7 +55,7 @@ export function ProjectCard({ project, index }: ProjectCardProps) {
             </a>
           )}
           <a
-            className="project__link"
+            className={styles.link}
             href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
