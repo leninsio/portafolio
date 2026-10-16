@@ -1,3 +1,5 @@
+import { SiteFooter } from "@/components/SiteFooter";
+import { SiteNav } from "@/components/SiteNav";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { HeaderSection } from "@/components/sections/HeaderSection";
 import { IntroSection } from "@/components/sections/IntroSection";
@@ -9,12 +11,16 @@ import { skillGroups } from "@/data/skills";
 
 export default function Home() {
   return (
-    <main className="page">
-      <HeaderSection name={profile.name} role={profile.role} />
-      <IntroSection text={profile.intro} />
-      <SkillsSection groups={skillGroups} />
-      <ProjectsSection projects={projects} />
-      <ContactSection links={profile.contactLinks} />
-    </main>
+    <>
+      <SiteNav />
+      <main className="page">
+        <HeaderSection name={profile.name} role={profile.role} />
+        <IntroSection text={profile.intro} />
+        <SkillsSection groups={skillGroups} />
+        <ProjectsSection projects={projects} />
+        <ContactSection links={profile.contactLinks} />
+      </main>
+      <SiteFooter />
+    </>
   );
 }

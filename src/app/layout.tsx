@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Lenin Alvarado | Desarrollador Full Stack",
+  title: "Lenin Alvarado · Desarrollador Full Stack",
   description:
-    "Portafolio de Lenin Alvarado, desarrollador Full Stack: conocimientos técnicos, proyectos del curso y contacto.",
+    "Portafolio de Lenin Alvarado, desarrollador Full Stack: proyectos del curso, conocimientos técnicos y formas de contacto.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

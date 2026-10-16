@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import Home from "@/app/page";
 import { projects } from "@/data/projects";
@@ -14,16 +14,40 @@ describe("Home", () => {
       screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent),
     ).toEqual(["Sobre mí", "Conocimientos técnicos", "Proyectos", "Contacto"]);
     expect(
-      Array.from(container.querySelectorAll("section[id]")).map(
+      Array.from(container.querySelectorAll("header[id], section[id]")).map(
         (section) => section.id,
       ),
-    ).toEqual(["sobre-mi", "conocimientos", "proyectos", "contacto"]);
+    ).toEqual([
+      "inicio",
+      "sobre-mi",
+      "conocimientos",
+      "proyectos",
+      "contacto",
+    ]);
   });
 
   it("tiene un único h1", () => {
     render(<Home />);
 
     expect(screen.getAllByRole("heading", { level: 1 })).toHaveLength(1);
+  });
+
+  it("navega a cada sección desde la barra principal", () => {
+    render(<Home />);
+
+    const nav = screen.getByRole("navigation", { name: "Principal" });
+
+    expect(
+      within(nav)
+        .getAllByRole("link")
+        .map((link) => link.getAttribute("href")),
+    ).toEqual([
+      "#inicio",
+      "#sobre-mi",
+      "#conocimientos",
+      "#proyectos",
+      "#contacto",
+    ]);
   });
 
   it("muestra los 6 proyectos del curso", () => {
