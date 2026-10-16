@@ -14,6 +14,14 @@ html[data-theme="light"] {
   --shadow-hover: 0 14px 34px -22px rgb(0 0 0 / 0.35);
   --hero-title-to: #4c4c52;
   --selection: rgb(0 113 227 / 0.2);
+
+  --band-bg: #f5f5f7;
+  --tint-blue-bg: #e7f0ff;
+  --tint-blue-fg: #0058b8;
+  --tint-violet-bg: #efe9ff;
+  --tint-violet-fg: #5b3fbf;
+  --tint-teal-bg: #e2f6ef;
+  --tint-teal-fg: #0a7a63;
 }
 
 /* Layout tokens live only on :root so a theme switch never changes spacing. */
@@ -48,6 +56,14 @@ html[data-theme="dark"] {
   --shadow-hover: 0 14px 34px -24px rgb(0 0 0 / 0.9);
   --hero-title-to: #a8a8ae;
   --selection: rgb(41 151 255 / 0.28);
+
+  --band-bg: #0e0e10;
+  --tint-blue-bg: #10233d;
+  --tint-blue-fg: #6db4ff;
+  --tint-violet-bg: #241a3f;
+  --tint-violet-fg: #b39dff;
+  --tint-teal-bg: #0b2b26;
+  --tint-teal-fg: #4fd1b5;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -66,6 +82,14 @@ html[data-theme="dark"] {
     --shadow-hover: 0 14px 34px -24px rgb(0 0 0 / 0.9);
     --hero-title-to: #a8a8ae;
     --selection: rgb(41 151 255 / 0.28);
+
+    --band-bg: #0e0e10;
+    --tint-blue-bg: #10233d;
+    --tint-blue-fg: #6db4ff;
+    --tint-violet-bg: #241a3f;
+    --tint-violet-fg: #b39dff;
+    --tint-teal-bg: #0b2b26;
+    --tint-teal-fg: #4fd1b5;
   }
 }
 
@@ -321,10 +345,12 @@ a {
   }
 }
 
-/* Full-bleed layer that clips the drifting artwork to the hero's box. */
+/* Full-bleed layer that clips the drifting artwork to the hero's box. It
+   reaches up under the translucent navbar (body's top padding) so the
+   gradient covers the strip from the very top of the page. */
 .hero__bg {
   position: absolute;
-  top: 0;
+  top: calc(-1 * (var(--nav-height) + 12px));
   bottom: 0;
   left: 50%;
   z-index: 0;

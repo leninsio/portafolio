@@ -1,49 +1,42 @@
 import { describe, expect, it } from "vitest";
 import {
   THEME_STORAGE_KEY,
-  nextPreference,
   parsePreference,
   resolveTheme,
+  toggleTheme,
 } from "@/lib/theme";
 
+describe("parsePreference", () => {
+  it("acepta solo los valores light y dark", () => {
+    expect(parsePreference("light")).toBe("light");
+    expect(parsePreference("dark")).toBe("dark");
+  });
+
+  it("trata cualquier otro valor, incluido system, como sin elección", () => {
+    expect(parsePreference("system")).toBeNull();
+    expect(parsePreference(null)).toBeNull();
+    expect(parsePreference("")).toBeNull();
+    expect(parsePreference("banana")).toBeNull();
+    expect(parsePreference("Light")).toBeNull();
+  });
+});
+
 describe("resolveTheme", () => {
-  it("resuelve el sistema en oscuro", () => {
-    expect(resolveTheme("system", true)).toBe("dark");
+  it("usa el tema del sistema cuando no hay preferencia guardada", () => {
+    expect(resolveTheme(null, true)).toBe("dark");
+    expect(resolveTheme(null, false)).toBe("light");
   });
 
-  it("resuelve el sistema en claro", () => {
-    expect(resolveTheme("system", false)).toBe("light");
-  });
-
-  it("respeta la preferencia explícita clara aunque el sistema esté oscuro", () => {
+  it("respeta la preferencia explícita por encima del sistema", () => {
     expect(resolveTheme("light", true)).toBe("light");
-  });
-
-  it("respeta la preferencia explícita oscura aunque el sistema esté claro", () => {
     expect(resolveTheme("dark", false)).toBe("dark");
   });
 });
 
-describe("nextPreference", () => {
-  it("recorre el ciclo sistema → claro → oscuro → sistema", () => {
-    expect(nextPreference("system")).toBe("light");
-    expect(nextPreference("light")).toBe("dark");
-    expect(nextPreference("dark")).toBe("system");
-  });
-});
-
-describe("parsePreference", () => {
-  it("acepta los valores válidos", () => {
-    expect(parsePreference("light")).toBe("light");
-    expect(parsePreference("dark")).toBe("dark");
-    expect(parsePreference("system")).toBe("system");
-  });
-
-  it("cae a sistema ante valores inválidos o ausentes", () => {
-    expect(parsePreference(null)).toBe("system");
-    expect(parsePreference("")).toBe("system");
-    expect(parsePreference("banana")).toBe("system");
-    expect(parsePreference("Light")).toBe("system");
+describe("toggleTheme", () => {
+  it("alterna al tema opuesto en ambos sentidos", () => {
+    expect(toggleTheme("light")).toBe("dark");
+    expect(toggleTheme("dark")).toBe("light");
   });
 });
 

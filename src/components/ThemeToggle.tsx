@@ -3,23 +3,21 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from "react";
 import {
   THEME_STORAGE_KEY,
-  nextPreference,
   parsePreference,
   resolveTheme,
-  type ResolvedTheme,
-  type ThemePreference,
+  toggleTheme,
+  type Theme,
 } from "@/lib/theme";
 
 const useIsomorphicLayoutEffect =
   typeof window === "undefined" ? useEffect : useLayoutEffect;
 
-const ACTION_LABELS: Record<ThemePreference, string> = {
-  system: "Cambiar a tema claro",
+const ACTION_LABELS: Record<Theme, string> = {
   light: "Cambiar a tema oscuro",
-  dark: "Usar tema del sistema",
+  dark: "Cambiar a tema claro",
 };
 
-const THEME_COLORS: Record<ResolvedTheme, string> = {
+const THEME_COLORS: Record<Theme, string> = {
   light: "#ffffff",
   dark: "#000000",
 };
@@ -39,42 +37,33 @@ function systemPrefersDark(): boolean {
   }
 }
 
-function readPreference(): ThemePreference {
+function readPreference(): Theme | null {
   try {
     return parsePreference(localStorage.getItem(THEME_STORAGE_KEY));
   } catch {
-    return "system";
+    return null;
   }
 }
 
-function persistPreference(preference: ThemePreference) {
+function persistTheme(theme: Theme) {
   try {
-    localStorage.setItem(THEME_STORAGE_KEY, preference);
+    localStorage.setItem(THEME_STORAGE_KEY, theme);
   } catch {
     // Sin almacenamiento disponible: el cambio sigue activo en la sesión.
   }
 }
 
-function applyPreference(preference: ThemePreference) {
-  const root = document.documentElement;
-
-  if (preference === "system") {
-    root.removeAttribute("data-theme");
-  } else {
-    root.setAttribute("data-theme", preference);
-  }
+function applyTheme(theme: Theme) {
+  document.documentElement.setAttribute("data-theme", theme);
 
   const meta = document.querySelector('meta[name="theme-color"]');
 
   if (meta) {
-    meta.setAttribute(
-      "content",
-      THEME_COLORS[resolveTheme(preference, systemPrefersDark())],
-    );
+    meta.setAttribute("content", THEME_COLORS[theme]);
   }
 }
 
-function ThemeIcon({ preference }: { preference: ThemePreference }) {
+function ThemeIcon({ theme }: { theme: Theme }) {
   const common = {
     className: "theme-toggle__icon",
     viewBox: "0 0 24 24",
@@ -88,7 +77,7 @@ function ThemeIcon({ preference }: { preference: ThemePreference }) {
     "aria-hidden": true,
   };
 
-  if (preference === "light") {
+  if (theme === "dark") {
     return (
       <svg {...common}>
         <circle cx="12" cy="12" r="4" />
@@ -97,48 +86,57 @@ function ThemeIcon({ preference }: { preference: ThemePreference }) {
     );
   }
 
-  if (preference === "dark") {
-    return (
-      <svg {...common}>
-        <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />
-      </svg>
-    );
-  }
-
   return (
     <svg {...common}>
-      <rect x="3" y="4" width="18" height="12" rx="2" />
-      <path d="M8 20h8M12 16v4" />
+      <path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z" />
     </svg>
   );
 }
 
 export function ThemeToggle() {
-  const [preference, setPreference] = useState<ThemePreference>("system");
+  const [theme, setTheme] = useState<Theme>("light");
 
   useIsomorphicLayoutEffect(() => {
     const stored = readPreference();
+    const initial = resolveTheme(stored, systemPrefersDark());
 
-    setPreference(stored);
-    applyPreference(stored);
+    applyTheme(initial);
+    setTheme(initial);
+
+    // Mientras no haya una elección manual, la página sigue al sistema.
+    if (stored !== null || typeof window.matchMedia !== "function") {
+      return;
+    }
+
+    const media = window.matchMedia("(prefers-color-scheme: dark)");
+    const onChange = () => {
+      const next = resolveTheme(null, media.matches);
+
+      applyTheme(next);
+      setTheme(next);
+    };
+
+    media.addEventListener("change", onChange);
+
+    return () => media.removeEventListener("change", onChange);
   }, []);
 
   const toggle = useCallback(() => {
-    const next = nextPreference(preference);
+    const next = toggleTheme(theme);
 
-    persistPreference(next);
-    applyPreference(next);
-    setPreference(next);
-  }, [preference]);
+    persistTheme(next);
+    applyTheme(next);
+    setTheme(next);
+  }, [theme]);
 
   return (
     <button
       className="theme-toggle"
       type="button"
       onClick={toggle}
-      aria-label={ACTION_LABELS[preference]}
+      aria-label={ACTION_LABELS[theme]}
     >
-      <ThemeIcon preference={preference} />
+      <ThemeIcon theme={theme} />
     </button>
   );
 }
