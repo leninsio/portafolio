@@ -1,7 +1,11 @@
+export type ContactIconId = "mail" | "linkedin" | "github";
+
 export type ContactLink = {
   label: string;
   value?: string;
   href?: string;
+  icon?: ContactIconId;
+  placeholder?: boolean;
 };
 
 export type Profile = {
@@ -23,12 +27,21 @@ export const profile: Profile = {
       label: "Correo",
       value: "leninalvarado4to@gmail.com",
       href: "mailto:leninalvarado4to@gmail.com",
+      icon: "mail",
     },
-    { label: "LinkedIn" },
+    {
+      label: "LinkedIn",
+      value: "linkedin.com/in/lenin-alvarado-dev",
+      href: "https://www.linkedin.com/in/lenin-alvarado-dev",
+      icon: "linkedin",
+      // TODO: reemplazar por el perfil real de LinkedIn antes de entregar
+      placeholder: true,
+    },
     {
       label: "GitHub",
       value: "github.com/leninsio",
       href: "https://github.com/leninsio",
+      icon: "github",
     },
   ],
 };

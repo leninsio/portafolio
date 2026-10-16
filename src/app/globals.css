@@ -955,40 +955,113 @@ html[data-theme="dark"] .hero__backdrop {
 
 /* Contact -------------------------------------------------------------- */
 
-.contact {
+.contact-card {
   display: flex;
   flex-direction: column;
-  margin: 32px 0 0;
+  gap: 16px;
+  margin-top: 28px;
+  padding: clamp(28px, 5vw, 56px);
+  border-radius: var(--radius-card);
+  background:
+    radial-gradient(130% 130% at 0% 0%, var(--tint-blue-bg), transparent 62%),
+    linear-gradient(135deg, var(--tint-blue-bg), var(--tint-violet-bg));
+}
+
+.contact-card__eyebrow {
+  color: var(--tint-violet-fg);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.contact-card__title {
+  color: var(--text);
+}
+
+.contact-card__lead {
+  max-width: 46ch;
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+}
+
+.contact-card__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+.button--ghost {
+  border: 1px solid var(--separator);
+  background: transparent;
+  color: var(--text);
+}
+
+.button--ghost:hover {
+  background: var(--surface);
+}
+
+.contact {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin: 12px 0 0;
   padding: 0;
-  border-top: 1px solid var(--separator);
   list-style: none;
 }
 
 .contact__row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 20px 0;
-  border-bottom: 1px solid var(--separator);
+  gap: 14px;
+  height: 100%;
+  padding: 16px 18px;
+  border-radius: var(--radius-media);
+  background: var(--bg);
   color: var(--text);
   text-decoration: none;
-  transition: color var(--duration) ease;
+  transition:
+    transform var(--duration) ease,
+    box-shadow var(--duration) ease;
+}
+
+.contact__row:hover,
+.contact__row:focus-visible {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.contact__icon {
+  display: grid;
+  flex: none;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--surface);
+  color: var(--text);
+}
+
+.contact__body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
 }
 
 .contact__label {
   font-size: 1rem;
 }
 
-.contact__meta {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+.contact__value {
+  overflow-wrap: anywhere;
   color: var(--text-muted);
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .contact__arrow {
+  margin-left: auto;
   color: var(--accent);
   transition: transform var(--duration) ease;
 }
@@ -996,6 +1069,22 @@ html[data-theme="dark"] .hero__backdrop {
 .contact__row:hover .contact__arrow,
 .contact__row:focus-visible .contact__arrow {
   transform: translate(2px, -2px);
+}
+
+@media (min-width: 720px) {
+  .contact {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 599px) {
+  .contact-card__actions {
+    flex-direction: column;
+  }
+
+  .contact-card__actions .button {
+    width: 100%;
+  }
 }
 
 /* Footer --------------------------------------------------------------- */
@@ -1074,7 +1163,8 @@ html[data-theme="dark"] .hero__backdrop {
 
   .project:hover,
   .project:hover .project__image,
-  .skills__group:hover {
+  .skills__group:hover,
+  .contact__row:hover {
     transform: none;
   }
 }
