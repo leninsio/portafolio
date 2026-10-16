@@ -15,7 +15,11 @@ export default function Home() {
     <>
       <SiteNav />
       <main className="page">
-        <HeaderSection name={profile.name} role={profile.role} />
+        <HeaderSection
+          name={profile.name}
+          role={profile.role}
+          tagline={profile.tagline}
+        />
         <Reveal>
           <IntroSection text={profile.intro} />
         </Reveal>

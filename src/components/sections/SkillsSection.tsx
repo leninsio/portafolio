@@ -17,7 +17,7 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
               <h3 className="skills__title" id={titleId}>
                 {group.title}
               </h3>
-              <ul className="chips" aria-labelledby={titleId}>
+              <ul className="skills__list" aria-labelledby={titleId}>
                 {group.items.map((item) => (
                   <li key={item}>{item}</li>
                 ))}

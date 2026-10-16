@@ -30,21 +30,21 @@ export function ProjectCard({ project }: ProjectCardProps) {
         <div className="project__links">
           {isValidPagesUrl(project.pagesUrl) && (
             <a
-              className="button button--ghost"
+              className="project__link"
               href={project.pagesUrl}
               target="_blank"
               rel="noopener noreferrer"
             >
-              Ver sitio
+              Ver sitio<span aria-hidden="true"> ›</span>
             </a>
           )}
           <a
-            className="button button--ghost"
+            className="project__link"
             href={project.repoUrl}
             target="_blank"
             rel="noopener noreferrer"
           >
-            Código
+            Código<span aria-hidden="true"> ›</span>
           </a>
         </div>
       </div>

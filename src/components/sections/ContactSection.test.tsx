@@ -7,14 +7,8 @@ describe("ContactSection", () => {
   it("es una region accesible etiquetada por su titulo", () => {
     render(<ContactSection links={profile.contactLinks} />);
 
-    expect(screen.getByRole("region", { name: "Contacto" })).toBeInTheDocument();
-  });
-
-  it("muestra la frase de cierre", () => {
-    render(<ContactSection links={profile.contactLinks} />);
-
     expect(
-      screen.getByText("¿Tienes un proyecto en mente? Hablemos."),
+      screen.getByRole("region", { name: "Hablemos." }),
     ).toBeInTheDocument();
   });
 

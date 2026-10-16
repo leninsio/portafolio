@@ -1,25 +1,33 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { profile } from "@/data/profile";
 
-const navLinks = [
-  { label: "Inicio", href: "#inicio" },
+const sectionLinks = [
   { label: "Sobre mí", href: "#sobre-mi" },
   { label: "Conocimientos", href: "#conocimientos" },
   { label: "Proyectos", href: "#proyectos" },
   { label: "Contacto", href: "#contacto" },
 ] as const;
 
+const sectionIds = [
+  "#inicio",
+  "#sobre-mi",
+  "#conocimientos",
+  "#proyectos",
+  "#contacto",
+] as const;
+
 export function SiteNav() {
-  const [activeHref, setActiveHref] = useState<string>(navLinks[0].href);
+  const [activeHref, setActiveHref] = useState<string>("#inicio");
 
   useEffect(() => {
     document.documentElement.classList.add("js-ready");
   }, []);
 
   useEffect(() => {
-    const sections = navLinks
-      .map((link) => document.querySelector<HTMLElement>(link.href))
+    const sections = sectionIds
+      .map((id) => document.querySelector<HTMLElement>(id))
       .filter((section): section is HTMLElement => section !== null);
 
     if (sections.length === 0) {
@@ -35,7 +43,7 @@ export function SiteNav() {
           getComputedStyle(document.documentElement).getPropertyValue(
             "--nav-height",
           ),
-        ) || 64;
+        ) || 52;
       const threshold = navHeight + 24;
       let current = sections[0];
 
@@ -70,19 +78,28 @@ export function SiteNav() {
 
   return (
     <nav className="nav" aria-label="Principal">
-      <ul className="nav__list">
-        {navLinks.map((link) => (
-          <li key={link.href}>
-            <a
-              className="nav__link"
-              href={link.href}
-              aria-current={activeHref === link.href ? "true" : undefined}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <div className="nav__inner">
+        <a
+          className="nav__brand"
+          href="#inicio"
+          aria-current={activeHref === "#inicio" ? "true" : undefined}
+        >
+          {profile.name}
+        </a>
+        <ul className="nav__list">
+          {sectionLinks.map((link) => (
+            <li key={link.href}>
+              <a
+                className="nav__link"
+                href={link.href}
+                aria-current={activeHref === link.href ? "true" : undefined}
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
     </nav>
   );
 }

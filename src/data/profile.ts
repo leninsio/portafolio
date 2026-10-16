@@ -7,6 +7,7 @@ export type ContactLink = {
 export type Profile = {
   name: string;
   role: string;
+  tagline: string;
   intro: string;
   contactLinks: readonly ContactLink[];
 };
@@ -14,6 +15,7 @@ export type Profile = {
 export const profile: Profile = {
   name: "Lenin Alvarado",
   role: "Desarrollador Full Stack",
+  tagline: "Productos web rápidos, accesibles y fáciles de usar.",
   intro:
     "Soy Lenin Alvarado, desarrollador full stack. Me motiva convertir ideas en productos web rápidos, accesibles y fáciles de usar. Disfruto construir desde interfaces cuidadas hasta aplicaciones con datos reales: tiendas en línea, paneles de control y herramientas para negocios.",
   contactLinks: [

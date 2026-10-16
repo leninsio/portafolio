@@ -3,9 +3,19 @@ import { describe, expect, it } from "vitest";
 import { HeaderSection } from "@/components/sections/HeaderSection";
 import { profile } from "@/data/profile";
 
+function renderHeader() {
+  return render(
+    <HeaderSection
+      name={profile.name}
+      role={profile.role}
+      tagline={profile.tagline}
+    />,
+  );
+}
+
 describe("HeaderSection", () => {
   it("muestra el nombre como único h1", () => {
-    render(<HeaderSection name={profile.name} role={profile.role} />);
+    renderHeader();
 
     const headings = screen.getAllByRole("heading", { level: 1 });
 
@@ -14,19 +24,26 @@ describe("HeaderSection", () => {
   });
 
   it("muestra la profesión", () => {
-    render(<HeaderSection name={profile.name} role={profile.role} />);
+    renderHeader();
 
     expect(screen.getByText("Desarrollador Full Stack")).toBeInTheDocument();
   });
 
-  it("muestra el monograma", () => {
-    render(<HeaderSection name={profile.name} role={profile.role} />);
+  it("muestra la frase corta derivada de la intro", () => {
+    renderHeader();
 
-    expect(screen.getByText("LA")).toBeInTheDocument();
+    expect(screen.getByText(profile.tagline)).toBeInTheDocument();
+    expect(profile.intro.toLowerCase()).toContain(profile.tagline.toLowerCase());
+  });
+
+  it("ya no renderiza el monograma LA", () => {
+    renderHeader();
+
+    expect(screen.queryByText("LA", { exact: true })).not.toBeInTheDocument();
   });
 
   it("enlaza a proyectos y a contacto", () => {
-    render(<HeaderSection name={profile.name} role={profile.role} />);
+    renderHeader();
 
     expect(screen.getByRole("link", { name: "Ver proyectos" })).toHaveAttribute(
       "href",

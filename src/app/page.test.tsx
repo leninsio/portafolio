@@ -16,7 +16,7 @@ describe("Home", () => {
       "Sobre mí",
       "Conocimientos técnicos",
       "Proyectos",
-      "Contacto",
+      "Hablemos.",
     ]);
     expect(
       Array.from(container.querySelectorAll("header[id], section[id]")).map(

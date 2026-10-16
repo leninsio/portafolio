@@ -102,16 +102,6 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
       </ul>
 
       <div className="carousel__controls">
-        <button
-          type="button"
-          className="button button--ghost carousel__nav"
-          aria-label="Anterior"
-          onClick={() => goTo(prevIndex(active, total))}
-          disabled={active === 0}
-        >
-          Anterior
-        </button>
-
         <div className="carousel__dots">
           {projects.map((project, index) => (
             <button
@@ -125,15 +115,27 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
           ))}
         </div>
 
-        <button
-          type="button"
-          className="button button--ghost carousel__nav"
-          aria-label="Siguiente"
-          onClick={() => goTo(nextIndex(active, total))}
-          disabled={active === total - 1}
-        >
-          Siguiente
-        </button>
+        <div className="carousel__buttons">
+          <button
+            type="button"
+            className="carousel__nav"
+            aria-label="Anterior"
+            onClick={() => goTo(prevIndex(active, total))}
+            disabled={active === 0}
+          >
+            <span aria-hidden="true">‹</span>
+          </button>
+
+          <button
+            type="button"
+            className="carousel__nav"
+            aria-label="Siguiente"
+            onClick={() => goTo(nextIndex(active, total))}
+            disabled={active === total - 1}
+          >
+            <span aria-hidden="true">›</span>
+          </button>
+        </div>
       </div>
     </div>
   );

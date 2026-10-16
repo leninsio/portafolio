@@ -12,27 +12,36 @@ export function ContactSection({ links }: ContactSectionProps) {
   );
 
   return (
-    <section
-      className="section section--contact"
-      id="contacto"
-      aria-labelledby="contact-title"
-    >
-      <h2 id="contact-title">Contacto</h2>
-      <p className="contact__pitch">¿Tienes un proyecto en mente? Hablemos.</p>
+    <section className="section" id="contacto" aria-labelledby="contact-title">
+      <h2 className="contact__title" id="contact-title">
+        Hablemos.
+      </h2>
       {available.length > 0 && (
         <ul className="contact">
-          {available.map((link) => (
-            <li key={link.label}>
-              <a
-                className="button"
-                href={link.href}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                {link.label}
-              </a>
-            </li>
-          ))}
+          {available.map((link) => {
+            const isExternal = link.href.startsWith("http");
+
+            return (
+              <li key={link.label}>
+                <a
+                  className="contact__row"
+                  href={link.href}
+                  target={isExternal ? "_blank" : undefined}
+                  rel={isExternal ? "noopener noreferrer" : undefined}
+                >
+                  <span className="contact__label">{link.label}</span>
+                  <span className="contact__meta">
+                    <span className="contact__value">
+                      {link.value ?? link.href}
+                    </span>
+                    <span className="contact__arrow" aria-hidden="true">
+                      ↗
+                    </span>
+                  </span>
+                </a>
+              </li>
+            );
+          })}
         </ul>
       )}
     </section>

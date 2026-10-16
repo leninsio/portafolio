@@ -20,7 +20,7 @@ describe("SkillsSection", () => {
     ).toEqual(["Frontend", "Backend", "Herramientas"]);
   });
 
-  it("lista los chips de cada grupo", () => {
+  it("lista las tecnologías de cada grupo", () => {
     render(<SkillsSection groups={skillGroups} />);
 
     for (const group of skillGroups) {
