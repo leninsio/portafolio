@@ -1,3 +1,4 @@
+import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav } from "@/components/SiteNav";
 import { ContactSection } from "@/components/sections/ContactSection";
@@ -15,10 +16,18 @@ export default function Home() {
       <SiteNav />
       <main className="page">
         <HeaderSection name={profile.name} role={profile.role} />
-        <IntroSection text={profile.intro} />
-        <SkillsSection groups={skillGroups} />
-        <ProjectsSection projects={projects} />
-        <ContactSection links={profile.contactLinks} />
+        <Reveal>
+          <IntroSection text={profile.intro} />
+        </Reveal>
+        <Reveal>
+          <SkillsSection groups={skillGroups} />
+        </Reveal>
+        <Reveal>
+          <ProjectsSection projects={projects} />
+        </Reveal>
+        <Reveal>
+          <ContactSection links={profile.contactLinks} />
+        </Reveal>
       </main>
       <SiteFooter />
     </>
