@@ -657,6 +657,15 @@ html[data-theme="dark"] .hero__backdrop {
   .skills__group--lead {
     grid-row: span 2;
   }
+
+  /* Anchor the lead card's pills to its bottom so the tall card feels balanced. */
+  .skills__group--lead .skills__list {
+    margin-top: auto;
+  }
+
+  .skills__group--lead .skills__title {
+    font-size: 2rem;
+  }
 }
 
 /* Projects ------------------------------------------------------------- */
