@@ -639,6 +639,118 @@ html[data-theme="dark"] .hero__backdrop {
   line-height: 1.5;
 }
 
+.about {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 32px;
+}
+
+@media (min-width: 900px) {
+  .about {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr);
+    gap: clamp(40px, 6vw, 72px);
+    align-items: start;
+  }
+}
+
+.about__main {
+  display: flex;
+  flex-direction: column;
+}
+
+.about__stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 28px 44px;
+  margin-top: 34px;
+}
+
+.about__stat {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.about__stat-value {
+  color: var(--text);
+  font-size: clamp(2.5rem, 7vw, 3.5rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.about__stat-label {
+  max-width: 22ch;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.about__principles {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.principle {
+  display: grid;
+  grid-template-areas:
+    "icon title"
+    "icon text";
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: start;
+  gap: 4px 16px;
+  padding: 20px 24px;
+  border-radius: var(--radius-media);
+  background: var(--surface);
+  transition:
+    transform var(--duration) ease,
+    box-shadow var(--duration) ease;
+}
+
+.principle:hover {
+  box-shadow: var(--shadow-hover);
+  transform: translateY(-3px);
+}
+
+.principle--fast {
+  --tint-bg: var(--tint-blue-bg);
+  --tint-fg: var(--tint-blue-fg);
+}
+
+.principle--accessible {
+  --tint-bg: var(--tint-violet-bg);
+  --tint-fg: var(--tint-violet-fg);
+}
+
+.principle--easy {
+  --tint-bg: var(--tint-teal-bg);
+  --tint-fg: var(--tint-teal-fg);
+}
+
+.principle__icon {
+  grid-area: icon;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--tint-bg);
+  color: var(--tint-fg);
+}
+
+.principle__title {
+  grid-area: title;
+  align-self: center;
+  color: var(--text);
+}
+
+.principle__text {
+  grid-area: text;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
 /* Section intro ------------------------------------------------------- */
 
 .section__intro {
@@ -1422,7 +1534,8 @@ html[data-theme="dark"] .hero__backdrop {
   .project:hover .project__image,
   .skills__group:hover,
   .skills__group--lead:hover .code-window,
-  .contact__row:hover {
+  .contact__row:hover,
+  .principle:hover {
     transform: none;
   }
 }
