@@ -661,6 +661,24 @@ html[data-theme="dark"] .hero__backdrop {
 
 /* Projects ------------------------------------------------------------- */
 
+/* Full-bleed band that separates the gallery from the rest of the page,
+   like Apple's product galleries. */
+.page > .reveal:not(:first-of-type) > .section.section--band {
+  width: 100vw;
+  margin-inline: calc(50% - 50vw);
+  padding: clamp(56px, 9vw, 104px) 0;
+  border-top: 0;
+  overflow: hidden;
+  background: var(--band-bg);
+}
+
+.band__inner {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+
 .carousel {
   position: relative;
   margin-top: 32px;
@@ -760,15 +778,16 @@ html[data-theme="dark"] .hero__backdrop {
   opacity: 0.35;
 }
 
+/* Let the next card peek in: ~1.2 visible on tablet, ~2.2 on desktop. */
 @media (min-width: 768px) {
   .carousel__slide {
-    flex-basis: calc((100% - 20px) / 2);
+    flex-basis: calc(100% / 1.2 - 20px);
   }
 }
 
 @media (min-width: 1100px) {
   .carousel__slide {
-    flex-basis: calc((100% - 40px) / 3);
+    flex-basis: calc(100% / 2.2 - 20px);
   }
 }
 
@@ -777,48 +796,95 @@ html[data-theme="dark"] .hero__backdrop {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
-  border: 1px solid var(--separator);
   border-radius: var(--radius-card);
-  background: var(--surface);
+  background: var(--bg);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 0.05),
+    0 20px 44px -30px rgb(0 0 0 / 0.4);
   transition:
     transform var(--duration) ease,
-    box-shadow var(--duration) ease,
-    border-color var(--duration) ease;
+    box-shadow var(--duration) ease;
 }
 
 .project:hover {
   box-shadow: var(--shadow-hover);
-  transform: translateY(-2px);
+  transform: translateY(-4px);
 }
 
+/* Browser-window frame: a thin chrome bar over the screenshot. */
 .project__media {
-  aspect-ratio: 16 / 10;
-  margin: 10px 10px 0;
+  margin: 12px 12px 0;
   overflow: hidden;
   border-radius: var(--radius-media);
   background: var(--surface);
+  box-shadow: 0 12px 26px -20px rgb(0 0 0 / 0.5);
+}
+
+.project__chrome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  background: var(--surface);
+}
+
+.project__dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.project__dot--red {
+  background: #ff6b62;
+}
+
+.project__dot--yellow {
+  background: #ffc848;
+}
+
+.project__dot--green {
+  background: #55d16b;
+}
+
+.project__shot {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
 }
 
 .project__image {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 420ms cubic-bezier(0.2, 0.7, 0.3, 1);
+  transition: transform 480ms cubic-bezier(0.2, 0.7, 0.3, 1);
 }
 
 .project:hover .project__image {
-  transform: scale(1.03);
+  transform: scale(1.04);
 }
 
 .project__body {
   display: flex;
   flex: 1;
   flex-direction: column;
-  gap: 8px;
-  padding: 16px 18px 20px;
+  gap: 6px;
+  padding: 18px 22px 24px;
+}
+
+.project__index {
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+
+.project__name {
+  font-size: clamp(1.375rem, 2.4vw, 1.5rem);
+  font-weight: 600;
+  letter-spacing: -0.01em;
 }
 
 .project__description {
+  margin-top: 2px;
   font-size: 0.95rem;
 }
 
@@ -827,30 +893,31 @@ html[data-theme="dark"] .hero__backdrop {
   flex-wrap: wrap;
   align-items: center;
   gap: 8px;
-  margin: 0;
+  margin: 10px 0 0;
   padding: 0;
-  color: var(--text-muted);
-  font-size: 0.82rem;
   list-style: none;
 }
 
-.project__tags li + li::before {
-  content: "·";
-  margin-right: 8px;
-  color: var(--separator);
+.project__tags li {
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text-muted);
+  font-size: 0.78rem;
 }
 
 .project__links {
   display: flex;
   flex-wrap: wrap;
-  gap: 16px;
+  align-items: center;
+  gap: 18px;
   margin-top: auto;
-  padding-top: 8px;
+  padding-top: 16px;
 }
 
 .project__link {
   color: var(--accent);
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -858,6 +925,20 @@ html[data-theme="dark"] .hero__backdrop {
 .project__link:hover,
 .project__link:focus-visible {
   text-decoration: underline;
+}
+
+.project__link--primary {
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  background: var(--accent);
+  color: #ffffff;
+}
+
+.project__link--primary:hover,
+.project__link--primary:focus-visible {
+  background: var(--accent-hover);
+  color: #ffffff;
+  text-decoration: none;
 }
 
 /* Contact -------------------------------------------------------------- */
@@ -977,5 +1058,11 @@ html[data-theme="dark"] .hero__backdrop {
     opacity: 1 !important;
     translate: none !important;
     transform: none !important;
+  }
+
+  .project:hover,
+  .project:hover .project__image,
+  .skills__group:hover {
+    transform: none;
   }
 }

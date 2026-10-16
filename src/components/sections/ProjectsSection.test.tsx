@@ -73,4 +73,31 @@ describe("ProjectsSection", () => {
 
     expect(screen.queryByText(/PENDIENTE/)).not.toBeInTheDocument();
   });
+
+  it("numera las tarjetas del 01 al 06 en orden", () => {
+    render(<ProjectsSection projects={projects} />);
+
+    expect(
+      screen.getAllByText(/^0[1-6]$/).map((node) => node.textContent),
+    ).toEqual(["01", "02", "03", "04", "05", "06"]);
+  });
+
+  it("marca el marco de ventana como decorativo", () => {
+    const { container } = render(<ProjectsSection projects={projects} />);
+
+    const frames = container.querySelectorAll(".project__chrome");
+
+    expect(frames).toHaveLength(projects.length);
+    for (const frame of frames) {
+      expect(frame).toHaveAttribute("aria-hidden", "true");
+    }
+  });
+
+  it("muestra la frase introductoria de la sección", () => {
+    render(<ProjectsSection projects={projects} />);
+
+    expect(
+      screen.getByText("Proyectos del curso, publicados en GitHub Pages."),
+    ).toBeInTheDocument();
+  });
 });

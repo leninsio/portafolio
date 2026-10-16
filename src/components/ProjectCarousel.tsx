@@ -96,7 +96,7 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
             aria-roledescription="slide"
             aria-label={`${index + 1} de ${total}`}
           >
-            <ProjectCard project={project} />
+            <ProjectCard project={project} index={index} />
           </li>
         ))}
       </ul>

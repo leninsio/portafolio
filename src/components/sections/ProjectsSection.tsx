@@ -7,9 +7,14 @@ type ProjectsSectionProps = {
 
 export function ProjectsSection({ projects }: ProjectsSectionProps) {
   return (
-    <section className="section" id="proyectos">
-      <h2 id="projects-title">Proyectos</h2>
-      <ProjectCarousel projects={projects} />
+    <section className="section section--band" id="proyectos">
+      <div className="band__inner">
+        <h2 id="projects-title">Proyectos</h2>
+        <p className="section__intro">
+          Proyectos del curso, publicados en GitHub Pages.
+        </p>
+        <ProjectCarousel projects={projects} />
+      </div>
     </section>
   );
 }
