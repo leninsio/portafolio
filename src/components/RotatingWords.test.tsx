@@ -43,6 +43,7 @@ describe("RotatingWords", () => {
   afterEach(() => {
     vi.useRealTimers();
     vi.unstubAllGlobals();
+    vi.restoreAllMocks();
   });
 
   it("muestra la primera palabra al inicio", () => {
@@ -122,5 +123,44 @@ describe("RotatingWords", () => {
 
     advance(2600 * 3);
     expect(displayed(container)).toBe("rápidos");
+  });
+
+  it("ajusta el ancho del viewport a la palabra activa y lo cambia al rotar", () => {
+    const widths: Record<string, number> = {
+      rápidos: 120,
+      accesibles: 180,
+      "fáciles de usar": 260,
+    };
+
+    vi.spyOn(Element.prototype, "getBoundingClientRect").mockImplementation(
+      function (this: Element) {
+        const width = widths[this.textContent ?? ""] ?? 0;
+
+        return {
+          width,
+          height: 24,
+          top: 0,
+          right: width,
+          bottom: 24,
+          left: 0,
+          x: 0,
+          y: 0,
+          toJSON: () => ({}),
+        } as DOMRect;
+      },
+    );
+
+    const { container } = renderRotating();
+    const viewport = container.querySelector<HTMLElement>(
+      '[data-slot="rotating-viewport"]',
+    );
+
+    expect(viewport?.style.width).toBe("120px");
+
+    advance(2600);
+    expect(viewport?.style.width).toBe("180px");
+
+    advance(2600);
+    expect(viewport?.style.width).toBe("260px");
   });
 });
