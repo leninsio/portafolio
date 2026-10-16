@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { ContactSection } from "@/components/sections/ContactSection";
 import { profile } from "@/data/profile";
@@ -18,14 +18,36 @@ describe("ContactSection", () => {
     ).toBeInTheDocument();
   });
 
-  it("renderiza solo los medios que tienen dato", () => {
+  it("renderiza Correo con mailto y luego GitHub, sin LinkedIn", () => {
     render(<ContactSection links={profile.contactLinks} />);
 
     const links = screen.getAllByRole("link");
 
-    expect(links.map((link) => link.textContent)).toEqual(["GitHub"]);
-    expect(links[0]).toHaveAttribute("href", "https://github.com/leninsio");
-    expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
+    expect(links.map((link) => link.getAttribute("href"))).toEqual([
+      "mailto:leninalvarado4to@gmail.com",
+      "https://github.com/leninsio",
+    ]);
+    expect(within(links[0]).getByText("Correo")).toBeInTheDocument();
+    expect(within(links[1]).getByText("GitHub")).toBeInTheDocument();
+    expect(screen.queryByText("LinkedIn")).not.toBeInTheDocument();
+  });
+
+  it("enlaza el correo con mailto:leninalvarado4to@gmail.com", () => {
+    render(<ContactSection links={profile.contactLinks} />);
+
+    expect(screen.getByRole("link", { name: /Correo/ })).toHaveAttribute(
+      "href",
+      "mailto:leninalvarado4to@gmail.com",
+    );
+  });
+
+  it("abre GitHub en una pestaña nueva de forma segura", () => {
+    render(<ContactSection links={profile.contactLinks} />);
+
+    const github = screen.getByRole("link", { name: /GitHub/ });
+
+    expect(github).toHaveAttribute("target", "_blank");
+    expect(github).toHaveAttribute("rel", "noopener noreferrer");
   });
 
   it("no muestra el texto PENDIENTE", () => {
@@ -45,7 +67,7 @@ describe("ContactSection", () => {
     );
 
     expect(screen.queryByText("Correo")).not.toBeInTheDocument();
-    expect(screen.getByRole("link", { name: "GitHub" })).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: /GitHub/ })).toBeInTheDocument();
   });
 
   it("no usa href vacíos", () => {

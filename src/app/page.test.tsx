@@ -12,7 +12,12 @@ describe("Home", () => {
     );
     expect(
       screen.getAllByRole("heading", { level: 2 }).map((h) => h.textContent),
-    ).toEqual(["Sobre mí", "Conocimientos técnicos", "Proyectos", "Contacto"]);
+    ).toEqual([
+      "Sobre mí",
+      "Conocimientos técnicos",
+      "Proyectos",
+      "Contacto",
+    ]);
     expect(
       Array.from(container.querySelectorAll("header[id], section[id]")).map(
         (section) => section.id,
@@ -58,6 +63,14 @@ describe("Home", () => {
         screen.getByRole("heading", { level: 3, name: project.name }),
       ).toBeInTheDocument();
     }
+  });
+
+  it("expone el correo de contacto con mailto", () => {
+    const { container } = render(<Home />);
+
+    expect(
+      container.querySelector('a[href="mailto:leninalvarado4to@gmail.com"]'),
+    ).not.toBeNull();
   });
 
   it("no muestra el texto PENDIENTE", () => {
