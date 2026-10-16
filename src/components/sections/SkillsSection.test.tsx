@@ -30,4 +30,35 @@ describe("SkillsSection", () => {
       expect(items.map((item) => item.textContent)).toEqual([...group.items]);
     }
   });
+
+  it("envuelve cada grupo en una tarjeta bento", () => {
+    render(<SkillsSection groups={skillGroups} />);
+
+    const cards = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((heading) => heading.closest(".skills__group"));
+
+    expect(cards).toHaveLength(3);
+    for (const card of cards) {
+      expect(card).not.toBeNull();
+    }
+  });
+
+  it("muestra el conteo de tecnologías de cada grupo", () => {
+    render(<SkillsSection groups={skillGroups} />);
+
+    expect(screen.getByText("6 tecnologías")).toBeInTheDocument();
+    expect(screen.getByText("2 tecnologías")).toBeInTheDocument();
+    expect(screen.getByText("3 tecnologías")).toBeInTheDocument();
+  });
+
+  it("muestra la frase introductoria de la sección", () => {
+    render(<SkillsSection groups={skillGroups} />);
+
+    expect(
+      screen.getByText(
+        "Las herramientas con las que construyo, de la interfaz al servidor.",
+      ),
+    ).toBeInTheDocument();
+  });
 });
