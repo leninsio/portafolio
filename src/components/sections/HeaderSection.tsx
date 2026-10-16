@@ -1,10 +1,18 @@
+import { Fragment, type CSSProperties } from "react";
+import { RotatingWords } from "@/components/RotatingWords";
+
 type HeaderSectionProps = {
   name: string;
   role: string;
   tagline: string;
 };
 
+const TAGLINE_PREFIX = "Productos web";
+const TAGLINE_WORDS = ["rápidos", "accesibles", "fáciles de usar"] as const;
+
 export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
+  const words = name.split(" ");
+
   return (
     <header className="hero" id="inicio" aria-labelledby="hero-title">
       <span className="hero__bg" aria-hidden="true">
@@ -12,13 +20,45 @@ export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
         <span className="hero__fade" />
       </span>
       <div className="hero__content">
-        <p className="hero__eyebrow">Portafolio</p>
+        <p
+          className="hero__eyebrow hero__enter"
+          style={{ "--enter-delay": "880ms" } as CSSProperties}
+        >
+          Portafolio
+        </p>
         <h1 className="hero__name" id="hero-title">
-          {name}
+          {words.map((word, index) => (
+            <Fragment key={`${word}-${index}`}>
+              {index > 0 ? " " : null}
+              <span
+                className="hero__word"
+                style={{ "--word-index": `${index}` } as CSSProperties}
+              >
+                {word}
+              </span>
+            </Fragment>
+          ))}
         </h1>
-        <p className="hero__role">{role}</p>
-        <p className="hero__tagline">{tagline}</p>
-        <div className="hero__actions">
+        <p
+          className="hero__role hero__enter"
+          style={{ "--enter-delay": "960ms" } as CSSProperties}
+        >
+          {role}
+        </p>
+        <p
+          className="hero__tagline hero__enter"
+          style={{ "--enter-delay": "1040ms" } as CSSProperties}
+        >
+          <RotatingWords
+            prefix={TAGLINE_PREFIX}
+            words={TAGLINE_WORDS}
+            label={tagline}
+          />
+        </p>
+        <div
+          className="hero__actions hero__enter"
+          style={{ "--enter-delay": "1120ms" } as CSSProperties}
+        >
           <a className="button" href="#proyectos">
             Ver proyectos
           </a>

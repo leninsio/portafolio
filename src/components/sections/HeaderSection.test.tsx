@@ -23,6 +23,14 @@ describe("HeaderSection", () => {
     expect(headings[0]).toHaveTextContent("Lenin Alvarado");
   });
 
+  it("expone el nombre completo como nombre accesible aunque esté en palabras", () => {
+    renderHeader();
+
+    expect(screen.getByRole("heading", { level: 1 })).toHaveAccessibleName(
+      "Lenin Alvarado",
+    );
+  });
+
   it("muestra la profesión", () => {
     renderHeader();
 
