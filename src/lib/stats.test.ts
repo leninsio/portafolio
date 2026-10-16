@@ -9,9 +9,14 @@ describe("buildAboutStats", () => {
 
     expect(stats.map((stat) => stat.value)).toEqual([6, 11, 3]);
     expect(stats.map((stat) => stat.label)).toEqual([
-      "proyectos publicados",
-      "tecnologías",
-      "áreas: frontend, backend y herramientas",
+      "Proyectos",
+      "Tecnologías",
+      "Áreas",
+    ]);
+    expect(stats.map((stat) => stat.detail)).toEqual([
+      "publicados en GitHub Pages",
+      "de la interfaz al servidor",
+      "Frontend · Backend · Herramientas",
     ]);
   });
 
@@ -26,9 +31,14 @@ describe("buildAboutStats", () => {
 
     expect(stats.map((stat) => stat.value)).toEqual([3, 3, 2]);
     expect(stats.map((stat) => stat.label)).toEqual([
-      "proyectos publicados",
-      "tecnologías",
-      "áreas: frontend y backend",
+      "Proyectos",
+      "Tecnologías",
+      "Áreas",
+    ]);
+    expect(stats.map((stat) => stat.detail)).toEqual([
+      "publicados en GitHub Pages",
+      "de la interfaz al servidor",
+      "Frontend · Backend",
     ]);
   });
 });

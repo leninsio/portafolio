@@ -60,8 +60,11 @@ export function AboutStats({ stats, startIndex = 0 }: AboutStatsProps) {
           <span className="about__stat-label" aria-hidden="true">
             {stat.label}
           </span>
+          <span className="about__stat-detail" aria-hidden="true">
+            {stat.detail}
+          </span>
           <span className="visually-hidden">
-            {stat.value} {stat.label}
+            {stat.value} {stat.label}: {stat.detail}
           </span>
         </div>
       ))}

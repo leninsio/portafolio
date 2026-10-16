@@ -46,10 +46,27 @@ describe("AboutSection", () => {
   it("muestra las tres cifras con su valor final accesible", () => {
     renderAbout();
 
-    expect(screen.getByText("6 proyectos publicados")).toBeInTheDocument();
-    expect(screen.getByText("11 tecnologías")).toBeInTheDocument();
     expect(
-      screen.getByText("3 áreas: frontend, backend y herramientas"),
+      screen.getByText("6 Proyectos: publicados en GitHub Pages"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("11 Tecnologías: de la interfaz al servidor"),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByText("3 Áreas: Frontend · Backend · Herramientas"),
+    ).toBeInTheDocument();
+  });
+
+  it("etiqueta cada cifra con un nivel principal y otro secundario", () => {
+    renderAbout();
+
+    expect(screen.getByText("Proyectos")).toBeInTheDocument();
+    expect(screen.getByText("publicados en GitHub Pages")).toBeInTheDocument();
+    expect(screen.getByText("Tecnologías")).toBeInTheDocument();
+    expect(screen.getByText("de la interfaz al servidor")).toBeInTheDocument();
+    expect(screen.getByText("Áreas")).toBeInTheDocument();
+    expect(
+      screen.getByText("Frontend · Backend · Herramientas"),
     ).toBeInTheDocument();
   });
 });

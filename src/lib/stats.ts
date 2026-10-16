@@ -7,15 +7,8 @@ export type AboutStat = {
   id: AboutStatId;
   value: number;
   label: string;
+  detail: string;
 };
-
-function joinWithY(items: readonly string[]): string {
-  if (items.length <= 1) {
-    return items.join("");
-  }
-
-  return `${items.slice(0, -1).join(", ")} y ${items[items.length - 1]}`;
-}
 
 export function buildAboutStats(
   projects: readonly Project[],
@@ -25,12 +18,22 @@ export function buildAboutStats(
     (total, group) => total + group.items.length,
     0,
   );
-  const areas = joinWithY(skillGroups.map((group) => group.title.toLowerCase()));
+  const areas = skillGroups.map((group) => group.title).join(" · ");
 
   return [
-    { id: "projects", value: projects.length, label: "proyectos publicados" },
-    { id: "technologies", value: technologies, label: "tecnologías" },
-    { id: "areas", value: skillGroups.length, label: `áreas: ${areas}` },
+    {
+      id: "projects",
+      value: projects.length,
+      label: "Proyectos",
+      detail: "publicados en GitHub Pages",
+    },
+    {
+      id: "technologies",
+      value: technologies,
+      label: "Tecnologías",
+      detail: "de la interfaz al servidor",
+    },
+    { id: "areas", value: skillGroups.length, label: "Áreas", detail: areas },
   ];
 }
 
