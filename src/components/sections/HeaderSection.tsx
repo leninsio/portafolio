@@ -7,8 +7,10 @@ type HeaderSectionProps = {
 export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
   return (
     <header className="hero" id="inicio" aria-labelledby="hero-title">
-      <span className="hero__backdrop" aria-hidden="true" />
-      <span className="hero__fade" aria-hidden="true" />
+      <span className="hero__bg" aria-hidden="true">
+        <span className="hero__backdrop" />
+        <span className="hero__fade" />
+      </span>
       <div className="hero__content">
         <p className="hero__eyebrow">Portafolio</p>
         <h1 className="hero__name" id="hero-title">

@@ -14,7 +14,10 @@ html[data-theme="light"] {
   --shadow-hover: 0 14px 34px -22px rgb(0 0 0 / 0.35);
   --hero-title-to: #4c4c52;
   --selection: rgb(0 113 227 / 0.2);
+}
 
+/* Layout tokens live only on :root so a theme switch never changes spacing. */
+:root {
   --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display",
     "SF Pro Text", var(--font-inter, "Inter"), system-ui, sans-serif;
 
@@ -79,6 +82,7 @@ html[data-theme="dark"] {
 }
 
 html {
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
@@ -317,22 +321,30 @@ a {
   }
 }
 
-.hero__backdrop,
-.hero__fade {
+/* Full-bleed layer that clips the drifting artwork to the hero's box. */
+.hero__bg {
   position: absolute;
   top: 0;
   bottom: 0;
   left: 50%;
-  width: 100vw;
   z-index: 0;
+  width: 100vw;
+  overflow: hidden;
+  transform: translateX(-50%);
   pointer-events: none;
+}
+
+.hero__backdrop,
+.hero__fade {
+  position: absolute;
+  inset: 0;
 }
 
 .hero__backdrop {
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-  transform: translateX(-50%) scale(1.08);
+  transform: scale(1.08);
   animation: hero-drift 28s ease-in-out infinite alternate;
 }
 
@@ -357,7 +369,6 @@ html[data-theme="dark"] .hero__backdrop {
 }
 
 .hero__fade {
-  transform: translateX(-50%);
   background: linear-gradient(
     to bottom,
     transparent 52%,

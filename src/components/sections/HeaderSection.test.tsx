@@ -76,7 +76,7 @@ describe("HeaderSection", () => {
     const backdrop = container.querySelector(".hero__backdrop");
 
     expect(backdrop).not.toBeNull();
-    expect(backdrop).toHaveAttribute("aria-hidden", "true");
+    expect(backdrop?.closest('[aria-hidden="true"]')).not.toBeNull();
     expect(
       within(screen.getByRole("banner")).queryByRole("img"),
     ).not.toBeInTheDocument();
