@@ -1,23 +1,23 @@
 export type ContactLink = {
   label: string;
-  text: string;
-  href: string;
+  href?: string;
 };
 
 export type Profile = {
   name: string;
   role: string;
   intro: string;
-  contactLinks: ContactLink[];
+  contactLinks: readonly ContactLink[];
 };
 
 export const profile: Profile = {
   name: "Lenin Alvarado",
   role: "Desarrollador Full Stack",
-  intro: "PENDIENTE",
+  intro:
+    "Soy Lenin Alvarado, desarrollador full stack. Me motiva convertir ideas en productos web rápidos, accesibles y fáciles de usar. Disfruto construir desde interfaces cuidadas hasta aplicaciones con datos reales: tiendas en línea, paneles de control y herramientas para negocios.",
   contactLinks: [
-    { label: "Correo", text: "PENDIENTE", href: "#contacto" },
-    { label: "LinkedIn", text: "PENDIENTE", href: "#contacto" },
-    { label: "GitHub", text: "PENDIENTE", href: "#contacto" },
+    { label: "Correo" },
+    { label: "LinkedIn" },
+    { label: "GitHub", href: "https://github.com/leninsio" },
   ],
 };

@@ -10,25 +10,42 @@ describe("ContactSection", () => {
     expect(screen.getByRole("region", { name: "Contacto" })).toBeInTheDocument();
   });
 
-  it("muestra los tres enlaces con texto PENDIENTE", () => {
+  it("muestra la frase de cierre", () => {
+    render(<ContactSection links={profile.contactLinks} />);
+
+    expect(
+      screen.getByText("¿Tienes un proyecto en mente? Hablemos."),
+    ).toBeInTheDocument();
+  });
+
+  it("renderiza solo los medios que tienen dato", () => {
     render(<ContactSection links={profile.contactLinks} />);
 
     const links = screen.getAllByRole("link");
 
-    expect(links).toHaveLength(3);
-    expect(links.map((link) => link.textContent)).toEqual([
-      "PENDIENTE",
-      "PENDIENTE",
-      "PENDIENTE",
-    ]);
+    expect(links.map((link) => link.textContent)).toEqual(["GitHub"]);
+    expect(links[0]).toHaveAttribute("href", "https://github.com/leninsio");
+    expect(links[0]).toHaveAttribute("rel", "noopener noreferrer");
   });
 
-  it("nombra los canales de contacto", () => {
+  it("no muestra el texto PENDIENTE", () => {
     render(<ContactSection links={profile.contactLinks} />);
 
-    expect(screen.getByText(/Correo/)).toBeInTheDocument();
-    expect(screen.getByText(/LinkedIn/)).toBeInTheDocument();
-    expect(screen.getByText(/GitHub/)).toBeInTheDocument();
+    expect(screen.queryByText(/PENDIENTE/)).not.toBeInTheDocument();
+  });
+
+  it("ignora los medios sin enlace", () => {
+    render(
+      <ContactSection
+        links={[
+          { label: "Correo" },
+          { label: "GitHub", href: "https://github.com/leninsio" },
+        ]}
+      />,
+    );
+
+    expect(screen.queryByText("Correo")).not.toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "GitHub" })).toBeInTheDocument();
   });
 
   it("no usa href vacíos", () => {

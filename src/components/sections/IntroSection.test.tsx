@@ -4,17 +4,18 @@ import { IntroSection } from "@/components/sections/IntroSection";
 import { profile } from "@/data/profile";
 
 describe("IntroSection", () => {
-  it("es una region accesible etiquetada por su titulo", () => {
+  it("es una region accesible etiquetada como Sobre mí", () => {
     render(<IntroSection text={profile.intro} />);
 
-    expect(screen.getByRole("region", { name: "Intro" })).toBeInTheDocument();
+    expect(screen.getByRole("region", { name: "Sobre mí" })).toBeInTheDocument();
   });
 
-  it("muestra el texto PENDIENTE", () => {
+  it("muestra la intro como texto real", () => {
     render(<IntroSection text={profile.intro} />);
 
-    expect(screen.getByRole("region", { name: "Intro" })).toHaveTextContent(
-      "PENDIENTE",
+    expect(screen.getByRole("region", { name: "Sobre mí" })).toHaveTextContent(
+      /desarrollador full stack/i,
     );
+    expect(screen.queryByText(/PENDIENTE/)).not.toBeInTheDocument();
   });
 });

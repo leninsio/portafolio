@@ -4,9 +4,9 @@ type IntroSectionProps = {
 
 export function IntroSection({ text }: IntroSectionProps) {
   return (
-    <section className="card" id="intro" aria-labelledby="intro-title">
-      <h2 id="intro-title">Intro</h2>
-      <p className="pending">{text}</p>
+    <section className="section" id="sobre-mi" aria-labelledby="intro-title">
+      <h2 id="intro-title">Sobre mí</h2>
+      <p className="intro__text">{text}</p>
     </section>
   );
 }

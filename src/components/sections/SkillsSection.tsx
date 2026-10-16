@@ -1,16 +1,31 @@
+import type { SkillGroup } from "@/data/skills";
+
 type SkillsSectionProps = {
-  skills: readonly string[];
+  groups: readonly SkillGroup[];
 };
 
-export function SkillsSection({ skills }: SkillsSectionProps) {
+export function SkillsSection({ groups }: SkillsSectionProps) {
   return (
-    <section className="card" id="conocimientos" aria-labelledby="skills-title">
+    <section className="section" id="conocimientos" aria-labelledby="skills-title">
       <h2 id="skills-title">Conocimientos técnicos</h2>
-      <ul className="skills" aria-labelledby="skills-title">
-        {skills.map((skill) => (
-          <li key={skill}>{skill}</li>
-        ))}
-      </ul>
+      <div className="skills">
+        {groups.map((group, index) => {
+          const titleId = `skills-group-${index}`;
+
+          return (
+            <div className="skills__group" key={group.title}>
+              <h3 className="skills__title" id={titleId}>
+                {group.title}
+              </h3>
+              <ul className="chips" aria-labelledby={titleId}>
+                {group.items.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
+            </div>
+          );
+        })}
+      </div>
     </section>
   );
 }
