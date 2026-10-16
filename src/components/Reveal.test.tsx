@@ -31,4 +31,43 @@ describe("Reveal", () => {
 
     expect(container.firstElementChild).toHaveClass("reveal");
   });
+
+  it("asigna un --stagger-index correlativo a cada hijo", () => {
+    vi.stubGlobal("IntersectionObserver", undefined);
+
+    const { container } = render(
+      <Reveal>
+        <p>Uno</p>
+        <span>Dos</span>
+        <div>Tres</div>
+      </Reveal>,
+    );
+
+    const children = Array.from(
+      (container.firstElementChild as HTMLElement).children,
+    ) as HTMLElement[];
+
+    expect(
+      children.map((child) => child.style.getPropertyValue("--stagger-index")),
+    ).toEqual(["0", "1", "2"]);
+  });
+
+  it("respeta el desfase inicial indicado", () => {
+    vi.stubGlobal("IntersectionObserver", undefined);
+
+    const { container } = render(
+      <Reveal startIndex={4}>
+        <p>Uno</p>
+        <p>Dos</p>
+      </Reveal>,
+    );
+
+    const children = Array.from(
+      (container.firstElementChild as HTMLElement).children,
+    ) as HTMLElement[];
+
+    expect(
+      children.map((child) => child.style.getPropertyValue("--stagger-index")),
+    ).toEqual(["4", "5"]);
+  });
 });

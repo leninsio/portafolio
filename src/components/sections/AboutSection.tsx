@@ -1,5 +1,6 @@
 import type { ReactElement } from "react";
 import { AboutStats } from "@/components/AboutStats";
+import { Reveal } from "@/components/Reveal";
 import {
   principles as defaultPrinciples,
   type Principle,
@@ -85,12 +86,12 @@ export function AboutSection({
   return (
     <section className="section" id="sobre-mi" aria-labelledby="intro-title">
       <div className="about">
-        <div className="about__main">
+        <Reveal className="about__main">
           <h2 id="intro-title">Sobre mí</h2>
           <p className="intro__text">{text}</p>
-          <AboutStats stats={stats} />
-        </div>
-        <div className="about__principles">
+          <AboutStats stats={stats} startIndex={2} />
+        </Reveal>
+        <Reveal className="about__principles" startIndex={5}>
           {principles.map((principle) => {
             const Icon = ICONS[principle.icon];
 
@@ -107,7 +108,7 @@ export function AboutSection({
               </article>
             );
           })}
-        </div>
+        </Reveal>
       </div>
     </section>
   );

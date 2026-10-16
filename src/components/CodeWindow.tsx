@@ -1,3 +1,7 @@
+"use client";
+
+import { useInView } from "@/hooks/useInView";
+
 type CodeTone = "keyword" | "component" | "string" | "prop" | "punct";
 
 type CodeToken = {
@@ -68,9 +72,16 @@ const CODE_LINES: readonly (readonly CodeToken[])[] = [
 ];
 
 export function CodeWindow() {
+  const { ref, inView } = useInView<HTMLDivElement>();
+
   return (
     <div className="code-window-slot">
-      <div className="code-window" aria-hidden="true">
+      <div
+        className="code-window"
+        aria-hidden="true"
+        ref={ref}
+        data-inview={inView ? "true" : "false"}
+      >
         <div className="code-window__bar">
           <span className="code-window__dot code-window__dot--red" />
           <span className="code-window__dot code-window__dot--yellow" />

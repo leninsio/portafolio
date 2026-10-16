@@ -1,47 +1,52 @@
 "use client";
 
-import { useEffect, useRef, type ReactNode } from "react";
+import {
+  Children,
+  cloneElement,
+  isValidElement,
+  type CSSProperties,
+  type ReactElement,
+  type ReactNode,
+} from "react";
+import { useInView } from "@/hooks/useInView";
 
 type RevealProps = {
   children: ReactNode;
   className?: string;
+  startIndex?: number;
 };
 
-export function Reveal({ children, className }: RevealProps) {
-  const ref = useRef<HTMLDivElement>(null);
+type RevealChild = ReactElement<{ style?: CSSProperties }>;
 
-  useEffect(() => {
-    const node = ref.current;
-
-    if (!node) {
-      return;
-    }
-
-    if (typeof IntersectionObserver === "undefined") {
-      node.classList.add("is-visible");
-      return;
-    }
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (entry.isIntersecting) {
-            node.classList.add("is-visible");
-            observer.disconnect();
-          }
-        }
-      },
-      { rootMargin: "0px 0px -8% 0px", threshold: 0.12 },
-    );
-
-    observer.observe(node);
-
-    return () => observer.disconnect();
-  }, []);
+export function Reveal({ children, className, startIndex = 0 }: RevealProps) {
+  const { ref, inView } = useInView<HTMLDivElement>({
+    once: true,
+    threshold: 0.15,
+  });
 
   return (
-    <div className={["reveal", className].filter(Boolean).join(" ")} ref={ref}>
-      {children}
+    <div
+      className={["reveal", inView && "is-visible", className]
+        .filter(Boolean)
+        .join(" ")}
+      ref={ref}
+    >
+      {Children.map(children, (child, index) => {
+        if (!isValidElement(child)) {
+          return child;
+        }
+
+        const element = child as RevealChild;
+        const style: CSSProperties = {
+          ...element.props.style,
+          "--stagger-index": startIndex + index,
+        } as CSSProperties;
+
+        return cloneElement(element, {
+          "data-reveal": "",
+          style,
+        } as Partial<{ style?: CSSProperties }>);
+      })}
     </div>
   );
 }

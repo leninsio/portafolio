@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import { siGithub } from "simple-icons";
+import { Reveal } from "@/components/Reveal";
 import type { ContactIconId, ContactLink } from "@/data/profile";
 
 type ContactSectionProps = {
@@ -78,6 +79,7 @@ export function ContactSection({ links }: ContactSectionProps) {
 
   const [copied, setCopied] = useState(false);
   const timer = useRef<number | undefined>(undefined);
+  const channelsIndex = email ? 4 : 3;
 
   useEffect(() => {
     return () => {
@@ -107,7 +109,7 @@ export function ContactSection({ links }: ContactSectionProps) {
 
   return (
     <section className="section" id="contacto" aria-labelledby="contact-title">
-      <div className="contact-card">
+      <Reveal className="contact-card">
         <p className="contact-card__eyebrow">Contacto</p>
         <h2 className="contact-card__title" id="contact-title">
           Hablemos.
@@ -133,11 +135,19 @@ export function ContactSection({ links }: ContactSectionProps) {
         )}
         {available.length > 0 && (
           <ul className="contact" aria-label="Canales de contacto">
-            {available.map((link) => {
+            {available.map((link, index) => {
               const isExternal = link.href.startsWith("http");
 
               return (
-                <li key={link.label}>
+                <li
+                  key={link.label}
+                  data-reveal="sub"
+                  style={
+                    {
+                      "--stagger-index": channelsIndex + 0.4 + index * 0.4,
+                    } as CSSProperties
+                  }
+                >
                   <a
                     className="contact__row"
                     href={link.href}
@@ -162,7 +172,7 @@ export function ContactSection({ links }: ContactSectionProps) {
             })}
           </ul>
         )}
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -1,4 +1,3 @@
-import { Reveal } from "@/components/Reveal";
 import { SiteFooter } from "@/components/SiteFooter";
 import { SiteNav } from "@/components/SiteNav";
 import { AboutSection } from "@/components/sections/AboutSection";
@@ -24,22 +23,14 @@ export default function Home() {
           role={profile.role}
           tagline={profile.tagline}
         />
-        <Reveal>
-          <AboutSection
-            text={profile.intro}
-            principles={principles}
-            stats={stats}
-          />
-        </Reveal>
-        <Reveal>
-          <SkillsSection groups={skillGroups} />
-        </Reveal>
-        <Reveal>
-          <ProjectsSection projects={projects} />
-        </Reveal>
-        <Reveal>
-          <ContactSection links={profile.contactLinks} />
-        </Reveal>
+        <AboutSection
+          text={profile.intro}
+          principles={principles}
+          stats={stats}
+        />
+        <SkillsSection groups={skillGroups} />
+        <ProjectsSection projects={projects} />
+        <ContactSection links={profile.contactLinks} />
       </main>
       <SiteFooter />
     </>

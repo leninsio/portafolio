@@ -342,7 +342,7 @@ a {
 }
 
 /* Hairline separators and extra breathing room between sections. */
-.page > .reveal:not(:first-of-type) > .section {
+.page > .section:not(:first-of-type) {
   padding-top: clamp(40px, 7vw, 76px);
   border-top: 1px solid var(--separator);
 }
@@ -1014,7 +1014,7 @@ html[data-theme="dark"] .hero__backdrop {
 
 /* Full-bleed band that separates the gallery from the rest of the page,
    like Apple's product galleries. */
-.page > .reveal:not(:first-of-type) > .section.section--band {
+.page > .section.section--band {
   width: 100vw;
   margin-inline: calc(50% - 50vw);
   padding: clamp(56px, 9vw, 104px) 0;
@@ -1443,14 +1443,27 @@ html[data-theme="dark"] .hero__backdrop {
 
 /* Motion --------------------------------------------------------------- */
 
-@keyframes reveal-up {
+@keyframes reveal-item {
   from {
     opacity: 0;
-    translate: 0 16px;
+    transform: translateY(28px);
+    filter: blur(6px);
   }
   to {
     opacity: 1;
-    translate: 0 0;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes reveal-item-soft {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -1506,12 +1519,27 @@ html[data-theme="dark"] .hero__backdrop {
   }
 }
 
-.js-ready .reveal:not(.is-visible) {
+/* Staggered per-element entrance: each [data-reveal] child carries its own
+   --stagger-index, assigned by the component, never by nth-child. */
+.js-ready .reveal:not(.is-visible) [data-reveal] {
   opacity: 0;
 }
 
-.reveal.is-visible {
-  animation: reveal-up 300ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+.reveal.is-visible [data-reveal] {
+  animation: reveal-item 700ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: calc(var(--stagger-index, 0) * 90ms);
+}
+
+.reveal.is-visible [data-reveal="sub"] {
+  animation-name: reveal-item-soft;
+  animation-duration: 520ms;
+}
+
+/* Continuous animations only run while their container is on screen. */
+.hero__bg[data-inview="false"] .hero__backdrop,
+.hero__scroll[data-inview="false"],
+.code-window[data-inview="false"] .code-window__cursor {
+  animation-play-state: paused;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -1526,11 +1554,11 @@ html[data-theme="dark"] .hero__backdrop {
     transition: none !important;
   }
 
-  .js-ready .reveal,
-  .js-ready .reveal:not(.is-visible) {
+  .js-ready .reveal [data-reveal],
+  .js-ready .reveal:not(.is-visible) [data-reveal] {
     opacity: 1 !important;
-    translate: none !important;
     transform: none !important;
+    filter: none !important;
   }
 
   .project:hover,

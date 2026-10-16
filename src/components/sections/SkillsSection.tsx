@@ -1,4 +1,6 @@
+import type { CSSProperties } from "react";
 import { CodeWindow } from "@/components/CodeWindow";
+import { Reveal } from "@/components/Reveal";
 import { TechIcon } from "@/components/TechIcon";
 import type { SkillGroup } from "@/data/skills";
 
@@ -69,15 +71,18 @@ const ICONS = [CodeIcon, ServerIcon, ToolsIcon] as const;
 export function SkillsSection({ groups }: SkillsSectionProps) {
   return (
     <section className="section" id="conocimientos" aria-labelledby="skills-title">
-      <h2 id="skills-title">Conocimientos técnicos</h2>
-      <p className="section__intro">
-        Las herramientas con las que construyo, de la interfaz al servidor.
-      </p>
-      <div className="skills">
+      <Reveal>
+        <h2 id="skills-title">Conocimientos técnicos</h2>
+        <p className="section__intro">
+          Las herramientas con las que construyo, de la interfaz al servidor.
+        </p>
+      </Reveal>
+      <Reveal className="skills" startIndex={2}>
         {groups.map((group, index) => {
           const titleId = `skills-group-${index}`;
           const style = GROUP_STYLES[index] ?? "frontend";
           const Icon = ICONS[index] ?? CodeIcon;
+          const cardIndex = 2 + index;
 
           return (
             <div
@@ -95,8 +100,16 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
               <p className="skills__count">{group.items.length} tecnologías</p>
               {index === 0 ? <CodeWindow /> : null}
               <ul className="skills__list" aria-labelledby={titleId}>
-                {group.items.map((item) => (
-                  <li key={item.name}>
+                {group.items.map((item, itemIndex) => (
+                  <li
+                    key={item.name}
+                    data-reveal="sub"
+                    style={
+                      {
+                        "--stagger-index": cardIndex + 0.4 + itemIndex * 0.4,
+                      } as CSSProperties
+                    }
+                  >
                     <TechIcon id={item.icon} />
                     <span>{item.name}</span>
                   </li>
@@ -105,7 +118,7 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
             </div>
           );
         })}
-      </div>
+      </Reveal>
     </section>
   );
 }

@@ -4,6 +4,7 @@ import {
   useCallback,
   useRef,
   useState,
+  type CSSProperties,
   type KeyboardEvent,
   type UIEvent,
 } from "react";
@@ -13,9 +14,13 @@ import type { Project } from "@/data/projects";
 
 type ProjectCarouselProps = {
   projects: readonly Project[];
+  startIndex?: number;
 };
 
-export function ProjectCarousel({ projects }: ProjectCarouselProps) {
+export function ProjectCarousel({
+  projects,
+  startIndex = 0,
+}: ProjectCarouselProps) {
   const total = projects.length;
   const [active, setActive] = useState(0);
   const trackRef = useRef<HTMLUListElement>(null);
@@ -95,13 +100,23 @@ export function ProjectCarousel({ projects }: ProjectCarouselProps) {
             role="group"
             aria-roledescription="slide"
             aria-label={`${index + 1} de ${total}`}
+            data-reveal="sub"
+            style={
+              {
+                "--stagger-index": startIndex + 0.4 + index * 0.4,
+              } as CSSProperties
+            }
           >
             <ProjectCard project={project} index={index} />
           </li>
         ))}
       </ul>
 
-      <div className="carousel__controls">
+      <div
+        className="carousel__controls"
+        data-reveal=""
+        style={{ "--stagger-index": startIndex } as CSSProperties}
+      >
         <div className="carousel__dots">
           {projects.map((project, index) => (
             <button

@@ -1,26 +1,22 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
+import { useInView } from "@/hooks/useInView";
 import { counterValue, type AboutStat } from "@/lib/stats";
 
 type AboutStatsProps = {
   stats: readonly AboutStat[];
+  startIndex?: number;
 };
 
 const DURATION_MS = 900;
 
-export function AboutStats({ stats }: AboutStatsProps) {
-  const ref = useRef<HTMLDivElement>(null);
+export function AboutStats({ stats, startIndex = 0 }: AboutStatsProps) {
+  const { ref, inView } = useInView<HTMLDivElement>({ once: true });
   const [elapsed, setElapsed] = useState(DURATION_MS);
 
   useEffect(() => {
-    const node = ref.current;
-
-    if (!node) {
-      return;
-    }
-
-    if (typeof IntersectionObserver === "undefined") {
+    if (!inView) {
       return;
     }
 
@@ -32,47 +28,32 @@ export function AboutStats({ stats }: AboutStatsProps) {
     }
 
     let frame = 0;
+    const start = performance.now();
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        for (const entry of entries) {
-          if (!entry.isIntersecting) {
-            continue;
-          }
+    const tick = (now: number) => {
+      const next = Math.min(now - start, DURATION_MS);
 
-          observer.disconnect();
+      setElapsed(next);
 
-          const start = performance.now();
-
-          const tick = (now: number) => {
-            const next = Math.min(now - start, DURATION_MS);
-
-            setElapsed(next);
-
-            if (next < DURATION_MS) {
-              frame = requestAnimationFrame(tick);
-            }
-          };
-
-          setElapsed(0);
-          frame = requestAnimationFrame(tick);
-        }
-      },
-      { threshold: 0.3 },
-    );
-
-    observer.observe(node);
-
-    return () => {
-      observer.disconnect();
-      cancelAnimationFrame(frame);
+      if (next < DURATION_MS) {
+        frame = requestAnimationFrame(tick);
+      }
     };
-  }, []);
+
+    frame = requestAnimationFrame(tick);
+
+    return () => cancelAnimationFrame(frame);
+  }, [inView]);
 
   return (
     <div className="about__stats" ref={ref}>
-      {stats.map((stat) => (
-        <div className="about__stat" key={stat.id}>
+      {stats.map((stat, index) => (
+        <div
+          className="about__stat"
+          key={stat.id}
+          data-reveal=""
+          style={{ "--stagger-index": startIndex + index } as CSSProperties}
+        >
           <span className="about__stat-value" aria-hidden="true">
             {counterValue(stat.value, elapsed, DURATION_MS)}
           </span>

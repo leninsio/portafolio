@@ -1,5 +1,8 @@
+"use client";
+
 import { Fragment, type CSSProperties } from "react";
 import { RotatingWords } from "@/components/RotatingWords";
+import { useInView } from "@/hooks/useInView";
 
 type HeaderSectionProps = {
   name: string;
@@ -12,10 +15,17 @@ const TAGLINE_WORDS = ["rápidos", "accesibles", "fáciles de usar"] as const;
 
 export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
   const words = name.split(" ");
+  const { ref, inView } = useInView<HTMLElement>();
+  const inview = inView ? "true" : "false";
 
   return (
-    <header className="hero" id="inicio" aria-labelledby="hero-title">
-      <span className="hero__bg" aria-hidden="true">
+    <header
+      className="hero"
+      id="inicio"
+      aria-labelledby="hero-title"
+      ref={ref}
+    >
+      <span className="hero__bg" aria-hidden="true" data-inview={inview}>
         <span className="hero__backdrop" />
         <span className="hero__fade" />
       </span>
@@ -67,7 +77,12 @@ export function HeaderSection({ name, role, tagline }: HeaderSectionProps) {
           </a>
         </div>
       </div>
-      <a className="hero__scroll" href="#sobre-mi" aria-label="Ir a Sobre mí">
+      <a
+        className="hero__scroll"
+        href="#sobre-mi"
+        aria-label="Ir a Sobre mí"
+        data-inview={inview}
+      >
         <svg
           viewBox="0 0 24 24"
           width="22"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState, type CSSProperties } from "react";
+import { useInView } from "@/hooks/useInView";
 import { nextWordIndex } from "@/lib/rotating-words";
 
 type RotatingWordsProps = {
@@ -20,9 +21,10 @@ function offsetFor(index: number, active: number, total: number): number {
 export function RotatingWords({ prefix, words, label }: RotatingWordsProps) {
   const [active, setActive] = useState(0);
   const total = words.length;
+  const { ref, inView } = useInView<HTMLSpanElement>();
 
   useEffect(() => {
-    if (total < 2) {
+    if (total < 2 || !inView) {
       return;
     }
 
@@ -69,10 +71,10 @@ export function RotatingWords({ prefix, words, label }: RotatingWordsProps) {
       stop();
       document.removeEventListener("visibilitychange", onVisibilityChange);
     };
-  }, [total]);
+  }, [total, inView]);
 
   return (
-    <span className="rotating">
+    <span className="rotating" ref={ref}>
       <span className="rotating__label" aria-hidden="true">
         {prefix}
       </span>
