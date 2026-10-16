@@ -22,8 +22,9 @@
   --gutter: 16px;
   --max-width: 1120px;
   --nav-height: 52px;
-  --page-gap: 48px;
-  --hero-padding: 64px;
+  --page-gap: clamp(64px, 12vw, 140px);
+  --hero-padding: clamp(72px, 14vw, 150px);
+  --duration: 240ms;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -67,8 +68,8 @@ body {
   background-color: var(--bg);
   color: var(--text);
   font-family: var(--font-sans);
-  font-size: 1rem;
-  line-height: 1.6;
+  font-size: 1.0625rem;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -87,19 +88,20 @@ h3 {
 }
 
 h1 {
-  font-size: clamp(2.1rem, 6vw, 3.4rem);
+  font-size: clamp(3rem, 8vw, 6rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
 }
 
 h2 {
-  font-size: clamp(1.35rem, 3.4vw, 1.85rem);
+  font-size: clamp(2rem, 4.5vw, 3rem);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  letter-spacing: -0.02em;
 }
 
 h3 {
-  font-size: 1.05rem;
+  font-size: 1.1rem;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -138,7 +140,7 @@ a {
 
 .nav__brand {
   color: var(--text);
-  font-size: 0.95rem;
+  font-size: 0.9375rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   text-decoration: none;
@@ -164,12 +166,12 @@ a {
   padding: 6px 10px;
   border-radius: var(--radius-pill);
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.8125rem;
   text-decoration: none;
   white-space: nowrap;
   transition:
-    color 200ms ease,
-    background-color 200ms ease;
+    color var(--duration) ease,
+    background-color var(--duration) ease;
 }
 
 .nav__link:hover,
@@ -214,17 +216,18 @@ a {
 }
 
 .hero__role {
-  margin-top: 12px;
+  margin-top: 14px;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
   font-weight: 500;
 }
 
 .hero__tagline {
-  max-width: 34ch;
+  max-width: 32ch;
   margin-top: 10px;
   color: var(--text-muted);
-  font-size: 1.15rem;
+  font-size: 1.3125rem;
+  line-height: 1.45;
 }
 
 .hero__actions {
@@ -232,13 +235,13 @@ a {
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  gap: 22px;
-  margin-top: 30px;
+  gap: 24px;
+  margin-top: 34px;
 }
 
 .hero__cta {
   color: var(--accent);
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 500;
   text-decoration: none;
 }
@@ -254,20 +257,20 @@ a {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  padding: 12px 26px;
   border: 0;
   border-radius: var(--radius-pill);
   background: var(--accent);
   color: #ffffff;
   font: inherit;
-  font-size: 1rem;
+  font-size: 1.0625rem;
   font-weight: 500;
   text-decoration: none;
   cursor: pointer;
   transition:
-    background-color 200ms ease,
-    transform 200ms ease,
-    opacity 200ms ease;
+    background-color var(--duration) ease,
+    transform var(--duration) ease,
+    opacity var(--duration) ease;
 }
 
 .button:hover {
@@ -288,9 +291,10 @@ a {
 
 .intro__text {
   max-width: 60ch;
-  margin-top: 16px;
+  margin-top: 20px;
   color: var(--text-muted);
-  font-size: 1.05rem;
+  font-size: 1.0625rem;
+  line-height: 1.5;
 }
 
 /* Skills --------------------------------------------------------------- */
@@ -298,8 +302,8 @@ a {
 .skills {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
-  margin-top: 24px;
+  gap: 40px;
+  margin-top: 32px;
 }
 
 .skills__title {
@@ -318,7 +322,7 @@ a {
 }
 
 .skills__list li {
-  padding: 12px 0;
+  padding: 13px 0;
   border-bottom: 1px solid var(--separator);
   font-size: 1rem;
 }
@@ -330,7 +334,7 @@ a {
 @media (min-width: 760px) {
   .skills {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 40px;
+    gap: 56px;
   }
 }
 
@@ -338,7 +342,7 @@ a {
 
 .carousel {
   position: relative;
-  margin-top: 24px;
+  margin-top: 32px;
 }
 
 .carousel:focus-visible {
@@ -372,7 +376,7 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  margin-top: 24px;
+  margin-top: 28px;
 }
 
 .carousel__dots {
@@ -390,8 +394,8 @@ a {
   background: var(--separator);
   cursor: pointer;
   transition:
-    background-color 200ms ease,
-    transform 200ms ease;
+    background-color var(--duration) ease,
+    transform var(--duration) ease;
 }
 
 .carousel__dot:hover {
@@ -422,8 +426,8 @@ a {
   line-height: 1;
   cursor: pointer;
   transition:
-    background-color 200ms ease,
-    opacity 200ms ease;
+    background-color var(--duration) ease,
+    opacity var(--duration) ease;
 }
 
 .carousel__nav:hover:not(:disabled) {
@@ -455,8 +459,8 @@ a {
   border-radius: var(--radius-card);
   background: var(--surface);
   transition:
-    transform 200ms ease,
-    box-shadow 200ms ease;
+    transform var(--duration) ease,
+    box-shadow var(--duration) ease;
 }
 
 .project:hover {
@@ -533,7 +537,7 @@ a {
 .contact {
   display: flex;
   flex-direction: column;
-  margin: 24px 0 0;
+  margin: 32px 0 0;
   padding: 0;
   border-top: 1px solid var(--separator);
   list-style: none;
@@ -544,11 +548,11 @@ a {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 18px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--separator);
   color: var(--text);
   text-decoration: none;
-  transition: color 200ms ease;
+  transition: color var(--duration) ease;
 }
 
 .contact__label {
@@ -565,7 +569,7 @@ a {
 
 .contact__arrow {
   color: var(--accent);
-  transition: transform 200ms ease;
+  transition: transform var(--duration) ease;
 }
 
 .contact__row:hover .contact__arrow,
@@ -606,7 +610,7 @@ a {
 }
 
 .reveal.is-visible {
-  animation: reveal-up 260ms ease-out both;
+  animation: reveal-up 300ms cubic-bezier(0.2, 0.7, 0.3, 1) both;
 }
 
 @media (prefers-reduced-motion: reduce) {
