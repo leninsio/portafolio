@@ -71,6 +71,27 @@ describe("SkillsSection", () => {
     expect(screen.getByText("3 tecnologías")).toBeInTheDocument();
   });
 
+  it("muestra la ventana de código decorativa solo en la tarjeta Frontend", () => {
+    const { container } = render(<SkillsSection groups={skillGroups} />);
+
+    const cards = screen
+      .getAllByRole("heading", { level: 3 })
+      .map((heading) => heading.closest(".skills__group") as HTMLElement);
+
+    const [frontend, ...others] = cards;
+    const window = frontend.querySelector(".code-window");
+
+    expect(window).not.toBeNull();
+    expect(window).toHaveAttribute("aria-hidden", "true");
+    expect(within(window as HTMLElement).getByText("Portfolio.tsx")).toBeInTheDocument();
+
+    for (const card of others) {
+      expect(card.querySelector(".code-window")).toBeNull();
+    }
+
+    expect(container.querySelectorAll(".code-window")).toHaveLength(1);
+  });
+
   it("muestra la frase introductoria de la sección", () => {
     render(<SkillsSection groups={skillGroups} />);
 

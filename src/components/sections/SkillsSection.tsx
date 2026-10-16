@@ -1,3 +1,4 @@
+import { CodeWindow } from "@/components/CodeWindow";
 import { TechIcon } from "@/components/TechIcon";
 import type { SkillGroup } from "@/data/skills";
 
@@ -92,6 +93,7 @@ export function SkillsSection({ groups }: SkillsSectionProps) {
                 {group.title}
               </h3>
               <p className="skills__count">{group.items.length} tecnologías</p>
+              {index === 0 ? <CodeWindow /> : null}
               <ul className="skills__list" aria-labelledby={titleId}>
                 {group.items.map((item) => (
                   <li key={item.name}>
