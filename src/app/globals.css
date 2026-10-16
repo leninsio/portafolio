@@ -472,9 +472,9 @@ a {
 
 .carousel__dots {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
 }
 
 .carousel__dot {
@@ -510,11 +510,6 @@ a {
 @media (min-width: 1100px) {
   .carousel__slide {
     flex-basis: calc((100% - 40px) / 3);
-  }
-
-  .js-ready .carousel__slide:not(.is-active) {
-    opacity: 0.55;
-    transform: scale(0.97);
   }
 }
 
