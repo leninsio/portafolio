@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import { describe, expect, it } from "vitest";
 import { HeaderSection } from "@/components/sections/HeaderSection";
 import { profile } from "@/data/profile";
@@ -53,5 +53,32 @@ describe("HeaderSection", () => {
       "href",
       "#contacto",
     );
+  });
+
+  it("muestra la etiqueta de categoría Portafolio", () => {
+    renderHeader();
+
+    expect(screen.getByText("Portafolio")).toBeInTheDocument();
+  });
+
+  it("incluye un indicador de scroll hacia la sección Sobre mí", () => {
+    renderHeader();
+
+    expect(screen.getByRole("link", { name: "Ir a Sobre mí" })).toHaveAttribute(
+      "href",
+      "#sobre-mi",
+    );
+  });
+
+  it("oculta la imagen de fondo a los lectores de pantalla", () => {
+    const { container } = renderHeader();
+
+    const backdrop = container.querySelector(".hero__backdrop");
+
+    expect(backdrop).not.toBeNull();
+    expect(backdrop).toHaveAttribute("aria-hidden", "true");
+    expect(
+      within(screen.getByRole("banner")).queryByRole("img"),
+    ).not.toBeInTheDocument();
   });
 });

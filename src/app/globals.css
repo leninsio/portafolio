@@ -291,11 +291,100 @@ a {
 /* Hero ----------------------------------------------------------------- */
 
 .hero {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: var(--hero-padding) 0;
+  justify-content: center;
+  min-height: 74vh;
+  padding: var(--hero-padding) 0 calc(var(--hero-padding) + 28px);
   text-align: center;
+}
+
+@media (min-width: 720px) {
+  .hero {
+    min-height: 86vh;
+  }
+}
+
+.hero__backdrop,
+.hero__fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 100vw;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hero__backdrop {
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transform: translateX(-50%) scale(1.08);
+  animation: hero-drift 28s ease-in-out infinite alternate;
+}
+
+html[data-theme="light"] .hero__backdrop {
+  background-image: url("/hero/hero-light.svg");
+}
+
+html[data-theme="dark"] .hero__backdrop {
+  background-image: url("/hero/hero-dark.svg");
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme]) .hero__backdrop {
+    background-image: url("/hero/hero-light.svg");
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]) .hero__backdrop {
+    background-image: url("/hero/hero-dark.svg");
+  }
+}
+
+.hero__fade {
+  transform: translateX(-50%);
+  background: linear-gradient(
+    to bottom,
+    transparent 52%,
+    var(--bg) 96%
+  );
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 760px;
+}
+
+.hero__eyebrow {
+  margin-bottom: 16px;
+  color: var(--text-muted);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.hero__name {
+  color: var(--text);
+}
+
+@supports ((-webkit-background-clip: text) or (background-clip: text)) {
+  .hero__name {
+    background-image: linear-gradient(180deg, var(--text), var(--hero-title-to));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
 }
 
 .hero__role {
@@ -332,6 +421,29 @@ a {
 .hero__cta:hover,
 .hero__cta:focus-visible {
   text-decoration: underline;
+}
+
+.hero__scroll {
+  position: absolute;
+  right: 0;
+  bottom: 22px;
+  left: 0;
+  z-index: 1;
+  display: grid;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--text-muted);
+  text-decoration: none;
+  animation: hero-bob 2.8s ease-in-out infinite;
+  transition: color var(--duration) ease;
+}
+
+.hero__scroll:hover,
+.hero__scroll:focus-visible {
+  color: var(--text);
 }
 
 /* Buttons -------------------------------------------------------------- */
@@ -685,6 +797,25 @@ a {
   to {
     opacity: 1;
     translate: 0 0;
+  }
+}
+
+@keyframes hero-drift {
+  from {
+    translate: -1.2% 1%;
+  }
+  to {
+    translate: 1.2% -1.5%;
+  }
+}
+
+@keyframes hero-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
   }
 }
 
